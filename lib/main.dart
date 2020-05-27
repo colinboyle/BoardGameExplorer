@@ -74,12 +74,15 @@ class Home extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 200,
-                      child: ListView.builder(
+                      child: ListView(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 4,
-                        itemBuilder: (BuildContext context, int index){
-                          return BoardGameFamilySearch();
-                          },
+                        children: <Widget>[
+                          BoardGameFamilySearch('Deck Building', '100'),
+                          BoardGameFamilySearch('Worker Placement', '200'),
+                          BoardGameFamilySearch('City Building', '300'),
+                          BoardGameFamilySearch('Economic', '400'),
+                          BoardGameFamilySearch('Adventure', '500'),
+                        ],
                       ),
                     ),
                     Container( 
@@ -104,12 +107,13 @@ class Home extends StatelessWidget {
                             Container(
                               height: 200,
                               width: MediaQuery.of(context).size.width,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal, 
-                                itemBuilder: (BuildContext context, int index){ 
-                                  return TrendingGameList();//TrendingGameCard(); // 
-                                }
-                              )//Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,)
+                              child: TrendingGameList()
+                              //ListView.builder(
+                              //  scrollDirection: Axis.horizontal, 
+                              //  itemBuilder: (BuildContext context, int index){ 
+                              //    return TrendingGameList();//TrendingGameCard(); // 
+                              //  }
+                              //)//Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,)
                             )
                           ],
                         ),
@@ -117,12 +121,36 @@ class Home extends StatelessWidget {
                     ),
                     Row(
                       children: <Widget>[
-                        Container(
-                         height: 150,
-                         width: MediaQuery.of(context).size.width,
-                         //color: Colors.blue,
-                         child: Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,)
-                        )
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
+                            Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width,
+                              child: //Text('Load the deals..',style: TextStyle(color:Colors.black))//TrendingGameList()
+                              ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 12,
+                                itemBuilder: (BuildContext context, int index){ 
+                                  return Container(
+                                    width: 100,
+                                    height: 125,
+                                    margin: EdgeInsets.all(5),
+                                    color: Colors.blueGrey[50],
+                                    child: Text('TODO game box',style: TextStyle(color:Colors.black))
+                                  );//TrendingGameList();//TrendingGameCard(); // 
+                                }
+                              )//Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,)
+                            )
+                          ],
+                        ),
+                        //Container(
+                        // height: 150,
+                        // width: MediaQuery.of(context).size.width,
+                        // //color: Colors.blue,
+                        // child: Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,)
+                        //)
                       ] 
                     ),
                     Row(
@@ -147,13 +175,13 @@ class Home extends StatelessWidget {
 }
 
 
-//    //              Expanded(
-//    //                child: ListView(
-//    //                  children: <Widget>[
-//    //                    BoardGameScreen('Hot Games','xmlapi2/hot?type=boardgame'),
-//    //                    BoardGameScreen('Hot Game Companies','xmlapi2/hot?type=boardgamecompany'),
-//    //                  ],
-//    //                )
+//  Expanded(
+//    child: ListView(
+//      children: <Widget>[
+//        BoardGameScreen('Hot Games','xmlapi2/hot?type=boardgame'),
+//        BoardGameScreen('Hot Game Companies','xmlapi2/hot?type=boardgamecompany'),
+//      ],
+//    )
 
 
 //BoxDecoration backgroundGradient() {

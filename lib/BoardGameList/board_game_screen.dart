@@ -46,6 +46,8 @@ class _BoardGameScreenState extends State<BoardGameScreen> {
                     //loadingMessage: snapshot.data.message,
                   );
                   break;
+                case Status.PARTIAL:
+                  return Text('Have a partial', style: TextStyle(color: Colors.black));
                 case Status.COMPLETED:
                   return GameListView(title: widget.title, games: snapshot.data.data);//boardGameList: snapshot.data.data);
                   break;

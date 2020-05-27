@@ -38,7 +38,7 @@ class BoardGame {
     this.description,
     this.boardGamePublisher,
     this.mechanic, 
-    this.category 
+    //this.category 
   );
 
   BoardGame.fromNode(XmlElement node){
@@ -50,18 +50,18 @@ class BoardGame {
 
   BoardGame.fromNodeFullDetails(XmlElement node){
     id = node.getAttribute('objectid');
-    name = node.findAllElements('name').where((element) => element.getAttribute('primary') == 'true').first.text;
+    name = node.findAllElements('name').where((element) => element.getAttribute('type') == 'primary').first.getAttribute('value');
     imageUrl = node.findAllElements('thumbnail').first.text;
     fullImageUrl = node.findAllElements('image').first.text;
-    yearPublished = node.findAllElements('yearpublished').first.text;
-    minPlayers = node.findAllElements('minplayers').first.text;
-    maxPlayers = node.findAllElements('maxplayers').first.text;
-    minPlaytime = node.findAllElements('minplaytime').first.text;
-    maxPlaytime = node.findAllElements('maxplaytime').first.text;
-    age = node.findAllElements('age').first.text;
+    yearPublished = node.findAllElements('yearpublished').first.getAttribute('value');
+    minPlayers = node.findAllElements('minplayers').first.getAttribute('value');
+    maxPlayers = node.findAllElements('maxplayers').first.getAttribute('value');
+    minPlaytime = node.findAllElements('minplaytime').first.getAttribute('value');
+    maxPlaytime = node.findAllElements('maxplaytime').first.getAttribute('value');
+    age = node.findAllElements('minage').first.getAttribute('value');
     description = node.findAllElements('description').first.text;
-    boardGamePublisher = node.findAllElements('boardgamepublisher').first.text;
-    mechanic = node.findAllElements('boardgamemechanic').first.text;
-    category = node.findAllElements('boardgamecategory').first.text;
+    boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
+    mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').first.getAttribute('value');
+    category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').first.getAttribute('value');
   }
 }

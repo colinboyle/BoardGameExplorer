@@ -11,4 +11,16 @@ class TrendingGameListRepository {
     final response = await _helper.get("xmlapi2/hot?thing=boardgame");
     return TrendingGameListResponse.fromXml(response).results;
   }
+
+  Future<BoardGame> fetchTrendingGameData(String id) async {
+    final response = await _helper.get("xmlapi2/thing?id="+id+"&thing=boardgame");
+    print('hitting single game at ' + "xmlapi2/thing?id="+id+"&thing=boardgame");
+    return TrendingGameListResponse.fromXmlGameData(response).resultExtraData;
+  }
+
+  Future<List<BoardGame>> fetchTrendingGameDataList(String ids) async {
+    final response = await _helper.get("xmlapi2/thing?thing=boardgame&id="+ids);
+    //print('hitting single game at ' + "xmlapi2/thing?id="+id+"&thing=boardgame");
+    return TrendingGameListResponse.fromXmlGameDataList(response).results;
+  }
 }

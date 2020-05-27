@@ -5,6 +5,6 @@ class Loading extends StatelessWidget {
   //Loading({String loadingMessage});
   @override 
   Widget build(BuildContext context) {
-    return Text('Loading..');
+    return Text('Loading..', style: TextStyle(color: Colors.black),);
   }
 }
