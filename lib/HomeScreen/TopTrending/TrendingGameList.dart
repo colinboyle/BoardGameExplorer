@@ -1,7 +1,3 @@
-import 'dart:async';
-
-//import 'package:board_game_app/Common/Loading.dart';
-//import 'package:board_game_app/Common/Error.dart';
 import 'package:board_game_app/api_response.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameCard.dart';
@@ -11,8 +7,6 @@ import 'package:flutter/material.dart';
 class TrendingGameList extends StatefulWidget {
   @override
   _TrendingGameListState createState() => _TrendingGameListState();
-
-
 }
 
 
@@ -76,14 +70,13 @@ class _TrendingGameListState extends State<TrendingGameList> {
                 // here we are showing loading view in waiting state.
                 return Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
             case Status.COMPLETED:
-                print(snapshot);
-                return //Text('Unbreadking', style: TextStyle(color: Colors.black));
+                return 
                 ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.data.length,
                   itemBuilder: (BuildContext context, int index){ 
-                    return //Text(snapshot.data.data[index].name, style: TextStyle(color: Colors.black));//
-                    TrendingGameCard(snapshot.data.data[index]);
+                    return 
+                    new TrendingGameCard(snapshot.data.data[index]);
                     },);
             case Status.ERROR:
               return  Text('error', style: TextStyle(color: Colors.black));

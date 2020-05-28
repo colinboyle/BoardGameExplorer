@@ -17,8 +17,9 @@ class BoardGame {
   String age;
   String description;
   String boardGamePublisher;
-  String mechanic; //many
-  String category; //many
+  List<String> mechanic; //many
+  List<String> category; //many
+  String rating;
   //String integration; //think this is expansions...?
 
 
@@ -38,6 +39,7 @@ class BoardGame {
     this.description,
     this.boardGamePublisher,
     this.mechanic, 
+    this.rating
     //this.category 
   );
 
@@ -49,7 +51,7 @@ class BoardGame {
   }
 
   BoardGame.fromNodeFullDetails(XmlElement node){
-    id = node.getAttribute('objectid');
+    id = node.getAttribute('id');
     name = node.findAllElements('name').where((element) => element.getAttribute('type') == 'primary').first.getAttribute('value');
     imageUrl = node.findAllElements('thumbnail').first.text;
     fullImageUrl = node.findAllElements('image').first.text;
@@ -61,7 +63,8 @@ class BoardGame {
     age = node.findAllElements('minage').first.getAttribute('value');
     description = node.findAllElements('description').first.text;
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
-    mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').first.getAttribute('value');
-    category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').first.getAttribute('value');
+    mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
+    category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').map((n) => n.getAttribute('value')).toList();
+    rating = node.findAllElements('ratings').first.findAllElements('average').first.getAttribute('value');
   }
 }

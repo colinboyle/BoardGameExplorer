@@ -1,4 +1,4 @@
-import 'package:board_game_app/utils/getHasColors.dart';
+import 'package:board_game_app/utils/getHashColors.dart';
 import 'package:board_game_app/utils/getSplitWords.dart';
 import 'package:flutter/material.dart';
 

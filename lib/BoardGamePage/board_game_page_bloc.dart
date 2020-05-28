@@ -1,41 +1,33 @@
 import 'dart:async';
 
-import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/BoardGamePage/board_game_repository.dart';
+import 'package:board_game_app/BoardGamePage/game_images_repository.dart';
+import 'package:board_game_app/DataTypes/GameImages.dart';
+import 'package:board_game_app/api_response.dart';
 
 class BoardGamePageBloc {
-  BoardGameRepository _boardGameRepository;
-  //StreamController _boardGameController;
-  //String url;
+  GameImagesRepository _gameImagesRepository;
+  StreamController _gameImagesController; 
 
-  //StreamSink<ApiResponse<BoardGame>> get boardGameSink =>
-  //    _boardGameController.sink;
+  StreamSink<ApiResponse<GameImages>> get gameImagesSink => _gameImagesController.sink;
+  Stream<ApiResponse<GameImages>> get gameImagesStream => _gameImagesController.stream.asBroadcastStream();
 
-  //Stream<ApiResponse<BoardGame>> get boardGameStream =>
-  //    _boardGameController.stream;
-
-  BoardGamePageBloc( ) { //String id) {
-    //_boardGameController = StreamController<ApiResponse<BoardGame>>();
-    _boardGameRepository = BoardGameRepository();
-    //fetchBoardGame(id);
+  BoardGamePageBloc(id) { 
+    _gameImagesController = StreamController<ApiResponse<GameImages>>();
+    _gameImagesRepository = GameImagesRepository();
+    fetchGameImages(id);
   }
 
-  Future<BoardGame> fetchBoardGame(String id) async {
-    //boardGameSink.add(ApiResponse.loading('Fetching Board Game'));
+  fetchGameImages(String id) async {
     try {
-      print('Trying to pull from bloc');
-      print(id);
-      BoardGame boardGame = await _boardGameRepository.fetchBoardGame(id);
-      //boardGameSink.add(ApiResponse.completed(boardGame));
-      return boardGame;
+      GameImages imageList= await _gameImagesRepository.fetchGameImages(id);
+      gameImagesSink.add(ApiResponse.completed(imageList));
     } catch (e) {
-      //boardGameSink.add(ApiResponse.error(e.toString()));
       print(e);
-      throw Exception(e);
+      gameImagesSink.add(ApiResponse.error(e.toString()));
     }
   }
 
-  //dispose() {
-  //  _boardGameController?.close();
-  //}
+  dispose() {
+    _gameImagesController?.close();
+  }
 }

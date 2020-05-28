@@ -45,15 +45,15 @@ class TrendingGameListBloc {
     }
   }
 
-  _getTrendingGameIDs(games) async {
-    String gameIDs = await games.reduce((String value, BoardGame element) => { value + element.id + ','});
-
-  }
+  //_getTrendingGameIDs(games) async {
+  //  String gameIDs = await games.reduce((String value, BoardGame element) => { value + element.id + ','});
+  //
+  //}
 
   Future<BoardGame> fetchTrendingGameData(BoardGame game) async {
     try {
-      print('in bloc with id');
-      print(game.id);
+      //print('in bloc with id');
+      //print(game.id);
       BoardGame boardGame = await _trendingGameListRepository.fetchTrendingGameData(game.id);
       return boardGame;
     } catch (e) {
@@ -66,8 +66,8 @@ class TrendingGameListBloc {
   Future<List<BoardGame>> fetchTrendingGameDataList(List<BoardGame> games) async {
     try {
       String gameIDs = games.map((e) => e.id+',').join();
-      print('in bloc fetching full list with ids');
-      print(gameIDs);
+      //print('in bloc fetching full list with ids');
+      //print(gameIDs);
       List<BoardGame> boardGames = await _trendingGameListRepository.fetchTrendingGameDataList(gameIDs);
       return boardGames;
     } catch (e) {
@@ -77,6 +77,7 @@ class TrendingGameListBloc {
     }
   }
 
+  
   dispose() {
     _trendingGameController?.close();
   }

@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 //import 'package:board_game_app/BoardGameList/board_game_screen.dart';
 import 'package:board_game_app/Layout/CustomSearchBar.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameList.dart';
-import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameCard.dart';
+//import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameCard.dart';
 
 
 
@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
             color: Colors.black,
             fontWeight: FontWeight.w500,
           ),
-          caption: TextStyle(fontSize: 8, color: Colors.black)
+          caption: TextStyle(fontSize: 8, color: Colors.black),
+          subtitle1: TextStyle(fontSize: 12, color: Colors.white)
         ),
         primaryColor: Colors.purple[900],
         iconTheme: IconThemeData(color: Colors.white, size: 28),

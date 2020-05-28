@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/LinePainter.dart';
-import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
+//import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 
 class GameListView extends StatelessWidget {
   final String title;
@@ -73,5 +73,5 @@ class GameCard extends StatelessWidget {
 }
 
 Future navigateToSubPage(context, id) async {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(id)));
+  //Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(id)));
 }
