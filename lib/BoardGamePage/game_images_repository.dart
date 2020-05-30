@@ -1,7 +1,7 @@
 //import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/BoardGamePage/game_images_response.dart';
 import 'package:board_game_app/DataTypes/GameImages.dart';
-import 'package:board_game_app/api_base_helper_xml.dart';
+import 'package:board_game_app/utils/api_base_helper_xml.dart';
 //import 'package:board_game_app/BoardGamePage/board_game_response.dart';
 
 class GameImagesRepository {

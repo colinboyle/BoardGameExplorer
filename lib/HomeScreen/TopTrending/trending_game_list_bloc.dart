@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 //import 'package:board_game_app/HomeScreen/TopTrending/trending_game_card_repository.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/trending_game_list_repository.dart';
-import 'package:board_game_app/api_response.dart';
+import 'package:board_game_app/utils/api_response.dart';
 
 class TrendingGameListBloc {
   TrendingGameListRepository _trendingGameListRepository;

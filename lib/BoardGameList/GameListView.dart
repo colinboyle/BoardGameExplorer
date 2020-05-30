@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/LinePainter.dart';
+import 'package:board_game_app/Common/LinePainter.dart';
 //import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 
 class GameListView extends StatelessWidget {

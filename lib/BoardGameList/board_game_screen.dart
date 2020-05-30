@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 //import './board_game_repository.dart';
-import 'package:board_game_app/api_response.dart';
+import 'package:board_game_app/utils/api_response.dart';
 import 'package:board_game_app/BoardGameList/board_game_list_bloc.dart';
 import 'package:board_game_app/BoardGameList/GameListView.dart';
 
