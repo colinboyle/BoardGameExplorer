@@ -1,4 +1,5 @@
 import 'package:xml/xml.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class BoardGame { 
   //Used for simple list board games
@@ -22,6 +23,8 @@ class BoardGame {
   String rating;
   //String integration; //think this is expansions...?
 
+  var unescape = new HtmlUnescape();
+
 
   BoardGame(this.id, this.rank, this.name, this.imageUrl);
 
@@ -43,11 +46,17 @@ class BoardGame {
     //this.category 
   );
 
-  BoardGame.fromNode(XmlElement node){
+  BoardGame.fromTrending(XmlElement node){
     id = node.getAttribute('id');
     rank = node.getAttribute('rank');
     imageUrl = node.findElements('thumbnail').first.getAttribute('value');
     name = node.findElements('name').first.getAttribute('value');
+  }
+
+  BoardGame.fromSearch(XmlElement node){
+    id = node.getAttribute('id');
+    name = node.findElements('name').first.getAttribute('value');
+    yearPublished = node.findElements('yearpublished').isNotEmpty ? node.findElements('yearpublished').first.getAttribute('value') : 'None';
   }
 
   BoardGame.fromNodeFullDetails(XmlElement node){
@@ -61,10 +70,10 @@ class BoardGame {
     minPlaytime = node.findAllElements('minplaytime').first.getAttribute('value');
     maxPlaytime = node.findAllElements('maxplaytime').first.getAttribute('value');
     age = node.findAllElements('minage').first.getAttribute('value');
-    description = node.findAllElements('description').first.text;
+    description = unescape.convert(node.findAllElements('description').first.text);
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
     mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
     category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').map((n) => n.getAttribute('value')).toList();
-    rating = node.findAllElements('ratings').first.findAllElements('average').first.getAttribute('value');
+    rating = (node.findAllElements('ratings').first.findAllElements('average').first.getAttribute('value')+'.00').substring(0,3); //Maybe should be using a float or something since this feels hacky...
   }
 }

@@ -12,8 +12,6 @@ class TrendingGameList extends StatefulWidget {
 
 class _TrendingGameListState extends State<TrendingGameList> {
   TrendingGameListBloc _bloc;
-  //final _controller = StreamController<BoardGame>();
-  
   String url;
   String loadingMessage;
   String errorMessage;

@@ -13,7 +13,7 @@ class TrendingGameListResponse {
       results = new List<BoardGame>();
       doc.findAllElements('item').forEach((v) {
         //TrendingGameListRepository.fetchTrendingGameData("1000");
-        results.add(new BoardGame.fromNode(v));
+        results.add(new BoardGame.fromTrending(v));
       });
     }
   }

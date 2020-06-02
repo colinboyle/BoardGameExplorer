@@ -24,7 +24,7 @@ class TrendingGameCard extends StatelessWidget{
         child: Container(
           width: 285,
           height: 190,
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [new BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5,5))]),
+          decoration: BoxDecoration(color: Colors.white, ),//boxShadow: [new BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5,5))]),
           margin: EdgeInsets.all(5),
           child:
             Stack(
@@ -49,17 +49,17 @@ class TrendingGameCard extends StatelessWidget{
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               SizedBox(height: 10,),
-                              AutoSizeText.rich(
-                                TextSpan( children: [
-                                  if(_stringSplit.firstWords != null) TextSpan(text: _stringSplit.firstWords + '\n', style: TextStyle(color: Colors.black, fontSize: 18)),
-                                  TextSpan(text: _stringSplit.lastWord, style: TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w800)),
-                                  TextSpan(text: '\n${gameData.boardGamePublisher}', style: TextStyle(fontSize: 13, color: Colors.black54),),
-                                ],
-                                style: TextStyle(fontSize: 200),
-                              ),
-                                minFontSize: 0,
-                                stepGranularity: 0.1,
-                              ),                       
+                              Container(
+                                width: 110,
+                                child: AutoSizeText.rich(
+                                  TextSpan( style: TextStyle(fontSize: 200), children: [
+                                    if(_stringSplit.firstWords != null) TextSpan(text: _stringSplit.firstWords + '\n', style: Theme.of(context).textTheme.headline2),
+                                    TextSpan(text: _stringSplit.lastWord, style: Theme.of(context).textTheme.headline3),
+                                    TextSpan(text: '\n${gameData.boardGamePublisher}', style: TextStyle(fontSize: 13, color: Colors.black54),),
+                                    ],),
+                                  minFontSize: 0,
+                                  stepGranularity: 0.1,
+                                ),),                     
                              //Row(
                              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                              //   children: <Widget>[
@@ -106,6 +106,6 @@ class TrendingGameCard extends StatelessWidget{
   openGame(context,BoardGame gameData){
     print('Game id from onTap');
     print(gameData.id);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData, false)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.id, gameData, false)));
   }
 }
