@@ -1,15 +1,15 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
-import 'package:board_game_app/HomeScreen/BoardGameFamilySearch.dart';
-import 'package:board_game_app/Layout/SearchBar/SearchResultPage.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:board_game_app/DataTypes/BoardGame.dart';
+
+import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
+import 'package:board_game_app/Layout/SearchBar/BoardGameFamilySearch.dart';
 
 import 'package:board_game_app/Layout/SearchBar/search_bar_bloc.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  bool hasFamilySearch;
+  final bool hasFamilySearch;
   CustomSearchBar(this.hasFamilySearch);
   @override 
   _CustomSearchBarState createState() => _CustomSearchBarState();
@@ -76,11 +76,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               padding: EdgeInsetsDirectional.only(top:20),
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                  BoardGameFamilySearch('Deck Building', '100'),
-                  BoardGameFamilySearch('Worker Placement', '200'),
-                  BoardGameFamilySearch('City Building', '300'),
-                  BoardGameFamilySearch('Economic', '400'),
-                  BoardGameFamilySearch('Adventure', '500'),
+                  BoardGameFamilySearch('Card Drafting', '2041'),
+                  BoardGameFamilySearch('Worker Placement', '2082'),
+                  BoardGameFamilySearch('Drafting', '2984'),
+                  BoardGameFamilySearch('Role Playing', '2028'),
+                  BoardGameFamilySearch('Co-op Game', '2023'),
               ],
             ),
             ),
@@ -100,7 +100,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   Widget _buildBar(BuildContext context) {
     return
-    Container(height: 120, child: 
+    Container(height: 110,child: 
       Row(mainAxisAlignment: MainAxisAlignment.start ,children: <Widget>[
         _appBarTitle,
         IconButton(icon: _searchIcon, onPressed: () {_searchPressed();},),
@@ -185,9 +185,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         children: <Widget>[
           Row(children: <Widget>[
             Image(image: AssetImage('assets/FirstLogo.png')),
-            Spacer(),
-            Text('Game Explorer', style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600)),
-            Spacer(),
+            Text('Geek Explorer', style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600)),
             Spacer(),
           ]),
         ])

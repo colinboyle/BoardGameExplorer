@@ -1,5 +1,3 @@
-import 'package:board_game_app/HomeScreen/BoardGameFamilySearch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -16,16 +14,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Game Geek',
       theme: ThemeData(
-        textTheme: TextTheme(
-          headline6: TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontWeight: FontWeight.w300,
-            letterSpacing: 1,
-          ),
+        textTheme: TextTheme(  
+          subtitle1: TextStyle(fontSize: 12, color: Colors.white),
           subtitle2: TextStyle(
             fontSize: 20,
             color: Colors.white,
+            fontWeight: FontWeight.w300,
+            letterSpacing: 1
+          ),
+          bodyText2: TextStyle(
+            fontSize: 12,
+            color: Color.fromRGBO(42, 72, 120, 1),
             fontWeight: FontWeight.w300,
             letterSpacing: 1
           ),
@@ -41,26 +40,24 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(42, 72, 120, 1),
             fontWeight: FontWeight.w500,
           ),
+          headline6: TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+            letterSpacing: 1,
+          ),
           caption: TextStyle(fontSize: 8, color: Colors.black),
-          subtitle1: TextStyle(fontSize: 12, color: Colors.white)
         ),
         primaryColor: Colors.purple[900],
         iconTheme: IconThemeData(color: Colors.white, size: 28),
-        //fontFamily: 'OpenSansCondensed'
-        //backgroundColor: Colors.red,
       ),
-      home: Home() //Text('hello world Again', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)) //Home()//HotItems()//RandomWords()
+      home: Home()
     );
   }
 }
 
 
 class Home extends StatelessWidget {
-//  @override
-//  _HomeState createState() => _HomeState();
-//}
-//
-//class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +82,6 @@ class Home extends StatelessWidget {
                             height: 200,
                             width: MediaQuery.of(context).size.width,
                             child: TrendingGameList()
-                            //ListView.builder(
-                            //  scrollDirection: Axis.horizontal, 
-                            //  itemBuilder: (BuildContext context, int index){ 
-                            //    return TrendingGameList();//TrendingGameCard(); // 
-                            //  }
-                            //)//Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,)
                           )
                         ],
                       ),
@@ -105,7 +96,7 @@ class Home extends StatelessWidget {
                           Container(
                             height: 150,
                             width: MediaQuery.of(context).size.width,
-                            child: //Text('Load the deals..',style: TextStyle(color:Colors.black))//TrendingGameList()
+                            child:
                             ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: 12,
@@ -116,18 +107,12 @@ class Home extends StatelessWidget {
                                   margin: EdgeInsets.all(5),
                                   color: Colors.blueGrey[50],
                                   child: Text('TODO game box',style: TextStyle(color:Colors.black))
-                                );//TrendingGameList();//TrendingGameCard(); // 
+                                );
                               }
-                            )//Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,)
+                            )
                           )
                         ],
                       ),
-                      //Container(
-                      // height: 150,
-                      // width: MediaQuery.of(context).size.width,
-                      // //color: Colors.blue,
-                      // child: Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,)
-                      //)
                     ] 
                   ),
                   Row(
@@ -135,7 +120,6 @@ class Home extends StatelessWidget {
                       Container(
                        height: 150,
                        width: MediaQuery.of(context).size.width,
-                       //color: Colors.blue,
                        child: Text('NEW FORUMS', style: Theme.of(context).textTheme.headline5,)
                       )
                     ] 
@@ -146,38 +130,6 @@ class Home extends StatelessWidget {
           ),
           CustomSearchBar(true)
         ])
-      //),
     );
   }
 }
-
-
-//  Expanded(
-//    child: ListView(
-//      children: <Widget>[
-//        BoardGameScreen('Hot Games','xmlapi2/hot?type=boardgame'),
-//        BoardGameScreen('Hot Game Companies','xmlapi2/hot?type=boardgamecompany'),
-//      ],
-//    )
-
-
-//BoxDecoration backgroundGradient() {
-//  return BoxDecoration(
-//    gradient: LinearGradient(
-//      begin: Alignment.centerLeft,
-//      end: Alignment.centerRight,
-//      tileMode: TileMode.mirror,
-//      stops: [0,0.4,0.6,1],
-//      colors: [
-//        Colors.blueGrey[800],
-//        Colors.blueGrey[700],
-//        Colors.blueGrey[700],
-//        Colors.blueGrey[800]
-//      ]
-//    )
-//  );
-//}
-
-
-//RichText( text: TextSpan(style: , children: TextSpan(""+"/n") , TextSpan() )
-//Wrap in a Padding to add padding

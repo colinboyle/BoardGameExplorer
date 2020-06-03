@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/DataTypes/GameImages.dart';
@@ -16,6 +17,7 @@ import 'package:board_game_app/utils/getHashColors.dart';
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 
 import 'package:board_game_app/BoardGamePage/board_game_page_bloc.dart';
+import 'package:board_game_app/Common/ExpandableText.dart';
 
 class BoardGamePage extends StatefulWidget {
   final BoardGame gameData;
@@ -78,6 +80,20 @@ class _BoardGamePageState extends State<BoardGamePage> {
     });
   }
 
+  _launchInBrowser(String url) async {
+    if (await canLaunch('https://boardgamegeek.com'+url)) {
+      await launch(
+        'https://boardgamegeek.com'+url,
+        forceSafariVC: false,
+        forceWebView: false,
+        //headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+
+  }
+
   openGame(context, String href) async{
     //print('Game id from onTap no game data');
     String id = href.split('/')[2];
@@ -102,7 +118,9 @@ class _BoardGamePageState extends State<BoardGamePage> {
           SizedBox(height: 100,),
           //Container( width: MediaQuery.of(context).size.width, child: 
           //Row( mainAxisSize: MainAxisSize.max, children: <Widget>[
-          Container(child:
+          Container(
+            //color:Colors.gre
+            child:
             Stack(children: <Widget>[
               Container( 
                 width: MediaQuery.of(context).size.width, 
@@ -132,7 +150,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 ),
               ), //Create bottom spacing
               Container(
-                decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, stops: [0.5, 0.7, 0.9], colors: [Colors.grey[900],Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(0.6)])),
+                decoration: BoxDecoration(color: Colors.black, gradient: RadialGradient(radius: 2.5,center: Alignment(.9,0), stops: [0, 0.2, 0.3, 0.6, 1], colors: [Colors.grey[900].withOpacity(0.7),Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(.90),Colors.grey[900].withOpacity(.95), Colors.grey[900]])),
                 height: 160,
                 width: MediaQuery.of(context).size.width
               ),
@@ -148,7 +166,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                       height: 175,
                       //child: Align( 
                         //alignment: Alignment.centerRight,
-                        child: LimitedBox( maxWidth: 140, child:Image.network(game.imageUrl, height: 140,))
+                        child: Container( width: 140, child: LimitedBox( maxWidth: 140, child:Image.network(game.imageUrl, height: 140,)))
                       //),
                     ),
                   ),
@@ -162,7 +180,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                   Container( width: 200, child: 
                     AutoSizeText('${game.name}',maxFontSize: 22, presetFontSizes: [25,22,18,16] ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle( color: Colors.white),),
                   ),//),
-                  Text('By: Uwe Rosenbirth', style: TextStyle(color: Colors.white, fontSize: 10),),
+                  Text('By: ${game.designer}', style: TextStyle(color: Colors.white, fontSize: 10),),
                   SizedBox(height: 10,),
                   AutoSizeText('${game.boardGamePublisher}',maxFontSize: 12 ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle(fontSize: 12, color: Colors.white),),
                   Container( width: 200, child:
@@ -183,7 +201,9 @@ class _BoardGamePageState extends State<BoardGamePage> {
             ]),
           ),
           Container(height: 380, child: 
-            ListView( scrollDirection: Axis.vertical, children: <Widget>[
+          SingleChildScrollView( scrollDirection: Axis.vertical, child:
+            Column( 
+            children: <Widget>[
               Container(height: 100, child:    
                 StreamBuilder<ApiResponse<GameImages>>(
                 stream: broadcastGameImagesStream,
@@ -221,37 +241,81 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 itemCount: game.mechanic.length,
                 itemBuilder: (context, index){ return 
                   Padding( padding: EdgeInsets.symmetric(vertical: 10.0), child:
+                  GestureDetector(
+                    onTap: (){print('Selected mechanic ${game.mechanic[index]}');}, 
+                    child:
                   Container(
                     height: 15,
                     decoration: BoxDecoration(color: widget._hashColors.getHashColors(game.mechanic[index])[0], borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Padding(padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5), child: Text('${game.mechanic[index]}', style: Theme.of(context).textTheme.caption,),)
-                  ));
+                  )));
                 }),
               ),
               SizedBox(height:15),
-              Align(alignment: Alignment.topLeft, child: Text('DESCRIPTION', style: Theme.of(context).textTheme.headline3)),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),),
+              Align(alignment: Alignment.topLeft, child: Text('DESCRIPTION', style: Theme.of(context).textTheme.headline2)),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),),
               Row(
                 children: <Widget>[
                 Expanded(child:
                 Padding(padding: EdgeInsets.all(10), child:
-                  GestureDetector(
-                    onTap: () {setState(() {
-                      readingMore = !readingMore;
-                    });},
-                    child:
+                  //GestureDetector(
+                    //onTap: () {setState(() {
+                    //  readingMore = !readingMore;
+                    //});},
+                    //child:
                     Container( 
-                      height: 160,
+                      //height: readingMore ? null : 160,
                       child:
                     Stack(
                       children: <Widget>[
-                        Container(color: Color.fromRGBO(245,246,247,1), child:Text(game.description, softWrap: true,),),
-                        Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.7, 1], colors: [Color.fromRGBO(191, 199, 209,0),Color.fromRGBO(191, 199, 209,1)])),),
-                        Container(child:Align(alignment: Alignment.bottomRight, child: Text('READ MORE', style: TextStyle(color: Colors.black)),),),
+                        Container(color: Color.fromRGBO(245,246,247,1), child:Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 0) , child: ExpandableText(game.description),),),
+                        //Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.7, 1], colors: [Color.fromRGBO(191, 199, 209,0),Color.fromRGBO(191, 199, 209,1)])),),
+                        //Container(child:Align(alignment: Alignment.bottomRight, child: Text('READ MORE', style: TextStyle(color: Colors.black)),),),
                   ])))
-                ))
+                )//)
               ]),
               //Container(height: 100, color: Colors.green,),
-              Text('RECOMMENDED', style: Theme.of(context).textTheme.headline3),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
+              Align(alignment: Alignment.topLeft, child: Text('MARKET OFFERS', style: Theme.of(context).textTheme.headline2),),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
+              StreamBuilder<ApiResponse<MarketOffers>>(
+                stream: marketOffersStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    switch (snapshot.data.status) {
+                      case Status.LOADING:
+                          // here we are showing loading view in waiting state.
+                          return Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
+                      case Status.COMPLETED:
+                          if(snapshot.data.data.config.numitems > 0){
+
+                           return  Container( height: 100, child:ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data.data.products.length,
+                              itemBuilder:  (BuildContext context, int index){ 
+                                return 
+                                InkWell(
+                                  onTap: (){_launchInBrowser(snapshot.data.data.products[index].producthref);}, //openGame(context, snapshot.data.data.recs[index].recitem.item.href);},
+                                  child:Container(width: 100,child:
+                                  Padding(padding: EdgeInsets.all(3), child:
+                                    Stack(alignment: Alignment.bottomCenter, children: <Widget>[
+                                      snapshot.data.data.products[index].images != null && snapshot.data.data.products[index].images[0].canonicalLink != null ? Image.network(snapshot.data.data.products[index].images[0].images.square200.url, height: 100,) : Container(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[4], child: Center(child:Text(snapshot.data.data.products[index].prettycondition, style: TextStyle(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], fontSize: 18, fontWeight: FontWeight.w800)) )),
+                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black54, child: Center(child: AutoSizeText('${snapshot.data.data.products[index].currencysymbol}${snapshot.data.data.products[index].price}', textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),)),
+                                      Positioned(right: 3, top: 3, child: Container(width: 20, height: 20, decoration: BoxDecoration(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], borderRadius: BorderRadius.all(Radius.circular(10))), child: Text(snapshot.data.data.products[index].conditioncode.toUpperCase(), textAlign: TextAlign.center,))),
+                                      Positioned(left: 3, top: 3, child: Image.network(snapshot.data.data.products[index].flagimgurl, width: 20, height: 20,)),
+                                    ],)
+                                  ),
+                                 ),);
+                              }));} 
+                              return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No offers available'),),);
+                          //Text('${snapshot.data.data.recs[0].recitem.item.primaryname.name}', style: TextStyle(color: Colors.black, fontSize: 12));//Image.network(snapshot.data.data.images[1].imageurl, fit: BoxFit.fill, width: MediaQuery.of(context).size.width/1.8 ,);
+                      case Status.ERROR:
+                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
+                      case Status.PARTIAL:
+                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));//Text('partial', style: TextStyle(color: Colors.black));
+                    }
+                  }
+                return Container();
+                }
+              ),
+              Align(alignment: Alignment.topLeft, child: Text('RECOMMENDATIONS', style: Theme.of(context).textTheme.headline2),),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
               StreamBuilder<ApiResponse<GameRecs>>(
                 stream: gameRecsStream,
                 builder: (context, snapshot) {
@@ -274,46 +338,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                                   Padding(padding: EdgeInsets.all(3), child:
                                     Stack(alignment: Alignment.bottomCenter, children: <Widget>[
                                       Image.network(snapshot.data.data.recs[index].recitem.item.images.square200, height: 100,),
-                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black45, child: Center(child: AutoSizeText(snapshot.data.data.recs[index].recitem.item.primaryname.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),))
-                                    ],)
-                                  ),
-                                 ),);
-                              }));} 
-                              return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No recommendations found'),),);
-                          //Text('${snapshot.data.data.recs[0].recitem.item.primaryname.name}', style: TextStyle(color: Colors.black, fontSize: 12));//Image.network(snapshot.data.data.images[1].imageurl, fit: BoxFit.fill, width: MediaQuery.of(context).size.width/1.8 ,);
-                      case Status.ERROR:
-                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
-                      case Status.PARTIAL:
-                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));//Text('partial', style: TextStyle(color: Colors.black));
-                    }
-                  }
-                return Container();
-                }
-              ),
-              Text('MARKET OFFERS', style: Theme.of(context).textTheme.headline3),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
-              StreamBuilder<ApiResponse<MarketOffers>>(
-                stream: marketOffersStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    switch (snapshot.data.status) {
-                      case Status.LOADING:
-                          // here we are showing loading view in waiting state.
-                          return Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
-                      case Status.COMPLETED:
-                          if(snapshot.data.data.config.numitems > 0){
-
-                           return  Container( height: 100, child:ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data.data.products.length,
-                              itemBuilder:  (BuildContext context, int index){ 
-                                return 
-                                InkWell(
-                                  onTap: (){print('thanks for pressing');}, //openGame(context, snapshot.data.data.recs[index].recitem.item.href);},
-                                  child:Container(width: 100,child:
-                                  Padding(padding: EdgeInsets.all(3), child:
-                                    Stack(alignment: Alignment.bottomCenter, children: <Widget>[
-                                      snapshot.data.data.products[index].images != null && snapshot.data.data.products[index].images[0].canonicalLink != null ? Image.network(snapshot.data.data.products[index].images[0].images.square200.url, height: 100,) : Container(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[4], child: Center(child:Text(snapshot.data.data.products[index].prettycondition, style: TextStyle(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], fontSize: 18, fontWeight: FontWeight.w800)) )),
-                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black45, child: Center(child: AutoSizeText('${snapshot.data.data.products[index].currencysymbol}${snapshot.data.data.products[index].price}', textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),))
+                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black54, child: Center(child: AutoSizeText(snapshot.data.data.recs[index].recitem.item.primaryname.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),))
                                     ],)
                                   ),
                                  ),);
@@ -330,6 +355,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 }
               ),
             ])
+          ),
           ),
         ]),
         CustomSearchBar(false),
@@ -456,7 +482,7 @@ class LoadingGamePage extends StatelessWidget{
             Container(child:
                 Stack(children: <Widget>[
                    Container(
-                    decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, stops: [0.5, 0.7, 0.9], colors: [Colors.grey[900],Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(0.6)])),
+                    decoration: BoxDecoration(color: Colors.black, gradient: RadialGradient(radius: 2.5,center: Alignment(.9,0), stops: [0, 0.2, 0.3, 0.6, 1], colors: [Colors.grey[900].withOpacity(0.7),Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(.90),Colors.grey[900].withOpacity(.95), Colors.grey[900]])),
                     height: 160,
                     width: MediaQuery.of(context).size.width
                   ),
@@ -477,8 +503,8 @@ class LoadingGamePage extends StatelessWidget{
                     ]),
                     Spacer(),
                     Shimmer.fromColors(
-                      baseColor: Colors.black12,
-                      highlightColor: Colors.white,
+                      baseColor: Colors.black54,
+                      highlightColor: Colors.black38,
                       loop: 15,
                       child:
                     Column(mainAxisSize: MainAxisSize.max,
@@ -507,8 +533,8 @@ class LoadingGamePage extends StatelessWidget{
                 ]),
               ),
             Shimmer.fromColors(
-              baseColor: Colors.black12,
-              highlightColor: Colors.white,
+              baseColor: Colors.black54,
+              highlightColor: Colors.black38,
               loop: 15,
               child:
             

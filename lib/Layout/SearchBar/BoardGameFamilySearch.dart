@@ -1,3 +1,4 @@
+import 'package:board_game_app/MechanicList/MechanicList.dart';
 import 'package:board_game_app/utils/getHashColors.dart';
 import 'package:board_game_app/utils/getSplitWords.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,11 @@ class BoardGameFamilySearch extends StatelessWidget {
     _splitWords.splitWords(mechanic);
     return Align(
       alignment: Alignment.bottomLeft,
-      child:Container( 
+      child:
+      InkWell(
+        onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(this.id)));},
+        child: 
+      Container( 
         height: 100,
         width: 200,
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15.0)), color: _hashColors.getHashColors(mechanic)[3],),
@@ -41,7 +46,7 @@ class BoardGameFamilySearch extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     if(_splitWords.firstWords != null) Text(_splitWords.firstWords, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600)),
-                    Text(_splitWords.lastWord, style: TextStyle(color: Colors.white, fontSize: 24 ,fontWeight: FontWeight.w800)),
+                    Text(_splitWords.lastWords, style: TextStyle(color: Colors.white, fontSize: 24 ,fontWeight: FontWeight.w800)),
                   ],
                 ),
               ),
@@ -49,7 +54,6 @@ class BoardGameFamilySearch extends StatelessWidget {
             ),
         //),
         ),
-      );
+      ),);
   }
-
 }

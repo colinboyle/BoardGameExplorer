@@ -11,8 +11,8 @@ import 'package:board_game_app/DataTypes/MarketOffers.dart';
 import 'package:board_game_app/utils/api_response.dart';
 
 class BoardGamePageBloc {
-  StreamController _gameRecsController; 
   GameRecsRepository _gameRecsRepository;
+  StreamController _gameRecsController; 
 
   GameImagesRepository _gameImagesRepository;
   StreamController _gameImagesController; 

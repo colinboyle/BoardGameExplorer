@@ -32,68 +32,69 @@ class TrendingGameCard extends StatelessWidget{
                 Positioned(top: 15, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.black), alignment: Alignment.topRight, onPressed: (){}),),
                 Row(
                   children: <Widget>[
-                   // Stack(
-                      //children: <Widget>[
-                        //Positioned(top: 10, right: 35, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.black), alignment: Alignment.topRight, onPressed: (){}),),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center, 
-                          children: <Widget>[
-                            Image.network(gameData.imageUrl, width: 130,)
-                          ],
-                        ),
-                        SizedBox(width: 10),
-                        //Padding(padding: EdgeInsets.all(5), child:
-                        Expanded(
-                          child:Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center, 
+                      children: <Widget>[
+                        Image.network(gameData.imageUrl, width: 130,)
+                      ],
+                    ),
+                    SizedBox(width: 10),
+                    //Padding(padding: EdgeInsets.all(5), child:
+                    Expanded(
+                      child:Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(height: 30,),
+                          //Spacer(),
+                          Container( child:
+                          //LimitedBox( maxHeight: 90, child:
+                          Column(children: <Widget>[
+                            if(_stringSplit.firstWords != null) Container(width: 100,child: AutoSizeText( _stringSplit.firstWords, maxLines: 2, wrapWords: false, style: Theme.of(context).textTheme.headline2)),
+                            Container(width: 110,child: AutoSizeText(_stringSplit.lastWords, maxLines: 1, wrapWords: false, style: Theme.of(context).textTheme.headline3)),
+                            Container(width: 110,child: AutoSizeText(gameData.boardGamePublisher, maxLines: 1, wrapWords: false, style: TextStyle(fontSize: 13, color: Colors.black54))),
+                          ],),),
+                          //TextSpan(text: _stringSplit.firstWords + '\n', style: Theme.of(context).textTheme.headline2),
+                          //TextSpan(text: _stringSplit.lastWord, style: Theme.of(context).textTheme.headline3),
+                          //TextSpan(text: '\n${gameData.boardGamePublisher}', style: TextStyle(fontSize: 13, color: Colors.black54),),
+                            //]),
+                            //presetFontSizes: [22,18,16,12],
+                          //wrapWords: false,
+                          //),
+                          //Row(children: <Widget>[
+                            Spacer(),
+                            Wrap(
+                            alignment: WrapAlignment.center,
+                            runAlignment: WrapAlignment.center,
                             children: <Widget>[
-                              SizedBox(height: 10,),
                               Container(
-                                width: 110,
-                                child: AutoSizeText.rich(
-                                  TextSpan( style: TextStyle(fontSize: 200), children: [
-                                    if(_stringSplit.firstWords != null) TextSpan(text: _stringSplit.firstWords + '\n', style: Theme.of(context).textTheme.headline2),
-                                    TextSpan(text: _stringSplit.lastWord, style: Theme.of(context).textTheme.headline3),
-                                    TextSpan(text: '\n${gameData.boardGamePublisher}', style: TextStyle(fontSize: 13, color: Colors.black54),),
-                                    ],),
-                                  minFontSize: 0,
-                                  stepGranularity: 0.1,
-                                ),),                     
-                             //Row(
-                             //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             //   children: <Widget>[
-                                  Wrap(
-                                    alignment: WrapAlignment.center,
-                                    children: <Widget>[
-                                    Container(
-                                      //width: 25,
-                                      height: 15,
-                                      decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.category.first}', style: Theme.of(context).textTheme.caption,),)
-                                    ),
-                                    Container(
-                                      //width: 25,
-                                      height: 15,
-                                      decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic.first}', style: Theme.of(context).textTheme.caption,),)
-                                    ),
-                                  ],
-                                  ),
-                              //  ],
-                              //),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 20,),Text('${gameData.rating}', style: Theme.of(context).textTheme.caption)]),
-                                  Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 20),Text('${gameData.minPlayers}-${gameData.maxPlayers}',style: Theme.of(context).textTheme.caption)]),
-                                  Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 20),Text('${gameData.minPlaytime}-${gameData.maxPlaytime}',style: Theme.of(context).textTheme.caption)]),
-                                ],
+                                //width: 25,
+                                height: 15,
+                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.category.first}', style: Theme.of(context).textTheme.caption,),)
                               ),
-                              SizedBox(height: 10,),
+                              Container(
+                                //width: 25,
+                                height: 15,
+                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic.first}', style: Theme.of(context).textTheme.caption,),)
+                              ),
+                          ],),
+                          //],),   //),
+                          Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 20,),Text('${gameData.rating}', style: Theme.of(context).textTheme.caption)]),
+                              Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 20),Text('${gameData.minPlayers}-${gameData.maxPlayers}',style: Theme.of(context).textTheme.caption)]),
+                              Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 20),Text('${gameData.minPlaytime}-${gameData.maxPlaytime}',style: Theme.of(context).textTheme.caption)]),
                             ],
-                          )
-                        ),
+                          ),
+                          Spacer(),
+                          SizedBox(height: 10,),
+                        ],
+                      )
+                    ),
                       //],
                     //),
                   ],

@@ -18,6 +18,7 @@ class BoardGame {
   String age;
   String description;
   String boardGamePublisher;
+  String designer;
   List<String> mechanic; //many
   List<String> category; //many
   String rating;
@@ -40,6 +41,7 @@ class BoardGame {
     this.maxPlaytime,
     this.age,
     this.description,
+    this.designer,
     this.boardGamePublisher,
     this.mechanic, 
     this.rating
@@ -71,6 +73,7 @@ class BoardGame {
     maxPlaytime = node.findAllElements('maxplaytime').first.getAttribute('value');
     age = node.findAllElements('minage').first.getAttribute('value');
     description = unescape.convert(node.findAllElements('description').first.text);
+    designer = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').first.getAttribute('value');
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
     mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
     category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').map((n) => n.getAttribute('value')).toList();
