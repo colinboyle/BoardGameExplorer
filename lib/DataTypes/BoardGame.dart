@@ -19,7 +19,7 @@ class BoardGame {
   String description;
   String boardGamePublisher;
   String designer;
-  List<String> mechanic; //many
+  List<Mechanic> mechanic; //many
   List<String> category; //many
   String rating;
   //String integration; //think this is expansions...?
@@ -75,8 +75,20 @@ class BoardGame {
     description = unescape.convert(node.findAllElements('description').first.text);
     designer = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').first.getAttribute('value');
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
-    mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
+    mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => new Mechanic.fromNode(n)).toList();//n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
     category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').map((n) => n.getAttribute('value')).toList();
     rating = (node.findAllElements('ratings').first.findAllElements('average').first.getAttribute('value')+'.00').substring(0,3); //Maybe should be using a float or something since this feels hacky...
+  }
+}
+
+class Mechanic {
+  String name;
+  String id;
+
+  Mechanic(this.name, this.id);
+
+  Mechanic.fromNode(XmlElement node){
+    name = node.getAttribute('value');
+    id = node.getAttribute('id');
   }
 }

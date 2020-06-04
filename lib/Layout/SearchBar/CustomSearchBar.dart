@@ -8,6 +8,8 @@ import 'package:board_game_app/Layout/SearchBar/BoardGameFamilySearch.dart';
 
 import 'package:board_game_app/Layout/SearchBar/search_bar_bloc.dart';
 
+import '../../main.dart';
+
 class CustomSearchBar extends StatefulWidget {
   final bool hasFamilySearch;
   CustomSearchBar(this.hasFamilySearch);
@@ -183,11 +185,13 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       Expanded( child:
         Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          GestureDetector( onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));}, child:
           Row(children: <Widget>[
             Image(image: AssetImage('assets/FirstLogo.png')),
+            SizedBox(width: 10,),
             Text('Geek Explorer', style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600)),
             Spacer(),
-          ]),
+          ])),
         ])
       );
     }

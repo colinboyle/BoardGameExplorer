@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Game Geek',
       theme: ThemeData(
         textTheme: TextTheme(  
-          subtitle1: TextStyle(fontSize: 12, color: Colors.white),
+          subtitle1: TextStyle(fontSize: 10, color: Colors.white),
           subtitle2: TextStyle(
             fontSize: 20,
             color: Colors.white,
@@ -66,9 +66,9 @@ class Home extends StatelessWidget {
       body: 
         Stack( children: <Widget>[
           Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
-            Column( children: <Widget>[
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
               Container(height: 220),
-              Container(height: MediaQuery.of(context).size.height-224, width: MediaQuery.of(context).size.width,child:
+              Container( height: MediaQuery.of(context).size.height-220, width: MediaQuery.of(context).size.width,child:
               ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
@@ -125,7 +125,7 @@ class Home extends StatelessWidget {
                     ] 
                   ),
                 ],
-              ),
+              )
             )],)
           ),
           CustomSearchBar(true)

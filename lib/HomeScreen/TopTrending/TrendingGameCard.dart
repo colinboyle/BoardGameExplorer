@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:board_game_app/MechanicList/MechanicList.dart';
 import 'package:board_game_app/utils/getHashColors.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/utils/getSplitWords.dart';
@@ -67,18 +68,20 @@ class TrendingGameCard extends StatelessWidget{
                             alignment: WrapAlignment.center,
                             runAlignment: WrapAlignment.center,
                             children: <Widget>[
-                              Container(
-                                //width: 25,
-                                height: 15,
-                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.category.first}', style: Theme.of(context).textTheme.caption,),)
-                              ),
-                              Container(
-                                //width: 25,
-                                height: 15,
-                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic.first}', style: Theme.of(context).textTheme.caption,),)
-                              ),
+                              GestureDetector(onTap: (){print('no category page');},child:
+                                Container(
+                                  //width: 25,
+                                  height: 15,
+                                  decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.category.first}', style: Theme.of(context).textTheme.caption,),)
+                              )),
+                              GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(gameData.mechanic.first.id,gameData.mechanic.first.name)));},child:
+                                Container(
+                                  //width: 25,
+                                  height: 15,
+                                  decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first.name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic.first.name}', style: Theme.of(context).textTheme.caption,),)
+                              )),
                           ],),
                           //],),   //),
                           Spacer(),

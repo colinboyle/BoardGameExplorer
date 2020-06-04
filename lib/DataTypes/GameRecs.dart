@@ -14,15 +14,6 @@ class GameRecs {
     }
     numrecs = json['numrecs'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.recs != null) {
-      data['recs'] = this.recs.map((v) => v.toJson()).toList();
-    }
-    data['numrecs'] = this.numrecs;
-    return data;
-  }
 }
 
 class Recs {
@@ -34,14 +25,6 @@ class Recs {
 
     recitem = json['item'] != null ? new RecItem.fromJson(json['item']) : null;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.recitem != null) {
-      data['item'] = this.recitem.toJson();
-    }
-    return data;
-  }
 }
 
 class RecItem {
@@ -52,14 +35,6 @@ class RecItem {
   RecItem.fromJson(Map<String, dynamic> json) {
 
     item = json['item'] != null ? new Item.fromJson(json['item']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.item != null) {
-      data['item'] = this.item.toJson();
-    }
-    return data;
   }
 }
 
@@ -82,21 +57,6 @@ class Item {
     dynamicinfo = json['dynamicinfo'] != null
         ? new DynamicInfo.fromJson(json['dynamicinfo'])
         : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    if (this.primaryname != null) {
-      data['primaryname'] = this.primaryname.toJson();
-    }
-    if (this.images != null) {
-      data['images'] = this.images.toJson();
-    }
-    if (this.dynamicinfo != null) {
-      data['dynamicinfo'] = this.dynamicinfo.toJson();
-    }
-    return data;
   }
 }
 
@@ -121,16 +81,6 @@ class Primaryname {
     sortindex = json['sortindex'];
     primaryname = json['primaryname'];
     translit = json['translit'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nameid'] = this.nameid;
-    data['name'] = this.name;
-    data['sortindex'] = this.sortindex;
-    data['primaryname'] = this.primaryname;
-    data['translit'] = this.translit;
-    return data;
   }
 }
 
@@ -162,18 +112,6 @@ class Images {
     previewthumb = json['previewthumb'];
     square200 = json['square200'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['thumb'] = this.thumb;
-    data['micro'] = this.micro;
-    data['square'] = this.square;
-    data['squarefit'] = this.squarefit;
-    data['tallthumb'] = this.tallthumb;
-    data['previewthumb'] = this.previewthumb;
-    data['square200'] = this.square200;
-    return data;
-  }
 }
 
 class DynamicInfo {
@@ -184,14 +122,6 @@ class DynamicInfo {
   DynamicInfo.fromJson(Map<String, dynamic> json) {
 
     item = json['item'] != null ? new DynamicInfoItem.fromJson(json['item']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.item != null) {
-      data['item'] = this.item.toJson();
-    }
-    return data;
   }
 }
 
@@ -212,20 +142,6 @@ class DynamicInfoItem {
     }
     polls = json['polls'] != null ? new Polls.fromJson(json['polls']) : null;
     stats = json['stats'] != null ? new Stats.fromJson(json['stats']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.rankinfo != null) {
-      data['rankinfo'] = this.rankinfo.map((v) => v.toJson()).toList();
-    }
-    if (this.polls != null) {
-      data['polls'] = this.polls.toJson();
-    }
-    if (this.stats != null) {
-      data['stats'] = this.stats.toJson();
-    }
-    return data;
   }
 }
 
@@ -260,19 +176,6 @@ class Rankinfo {
     rank = json['rank'];
     baverage = json['baverage'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['prettyname'] = this.prettyname;
-    data['shortprettyname'] = this.shortprettyname;
-    data['veryshortprettyname'] = this.veryshortprettyname;
-    data['subdomain'] = this.subdomain;
-    data['rankobjecttype'] = this.rankobjecttype;
-    data['rankobjectid'] = this.rankobjectid;
-    data['rank'] = this.rank;
-    data['baverage'] = this.baverage;
-    return data;
-  }
 }
 
 class Polls {
@@ -301,20 +204,6 @@ class Polls {
         ? new Boardgameweight.fromJson(json['boardgameweight'])
         : null;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.userplayers != null) {
-      data['userplayers'] = this.userplayers.toJson();
-    }
-    data['playerage'] = this.playerage;
-    data['languagedependence'] = this.languagedependence;
-    data['subdomain'] = this.subdomain;
-    if (this.boardgameweight != null) {
-      data['boardgameweight'] = this.boardgameweight.toJson();
-    }
-    return data;
-  }
 }
 
 class Userplayers {
@@ -339,18 +228,6 @@ class Userplayers {
     //}
     totalvotes = json['totalvotes'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.best != null) {
-      data['best'] = this.best.map((v) => v.toJson()).toList();
-    }
-    //if (this.recommended != null) {
-    //  data['recommended'] = this.recommended.map((v) => v.toJson()).toList();
-    //}
-    data['totalvotes'] = this.totalvotes;
-    return data;
-  }
 }
 
 class Best {
@@ -363,13 +240,6 @@ class Best {
     min = json['min'];
     max = json['max'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['min'] = this.min;
-    data['max'] = this.max;
-    return data;
-  }
 }
 
 class Boardgameweight {
@@ -381,13 +251,6 @@ class Boardgameweight {
   Boardgameweight.fromJson(Map<String, dynamic> json) {
     averageweight = json['averageweight'] + 0.0;
     votes = json['votes'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['averageweight'] = this.averageweight;
-    data['votes'] = this.votes;
-    return data;
   }
 }
 
@@ -459,31 +322,5 @@ class Stats {
     numplays = json['numplays'];
     numplaysMonth = json['numplays_month'];
     numfans = json['numfans'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['usersrated'] = this.usersrated;
-    data['average'] = this.average;
-    data['baverage'] = this.baverage;
-    data['stddev'] = this.stddev;
-    data['avgweight'] = this.avgweight;
-    data['numweights'] = this.numweights;
-    data['numgeeklists'] = this.numgeeklists;
-    data['numtrading'] = this.numtrading;
-    data['numwanting'] = this.numwanting;
-    data['numwish'] = this.numwish;
-    data['numowned'] = this.numowned;
-    data['numprevowned'] = this.numprevowned;
-    data['numcomments'] = this.numcomments;
-    data['numwishlistcomments'] = this.numwishlistcomments;
-    data['numhasparts'] = this.numhasparts;
-    data['numwantparts'] = this.numwantparts;
-    data['views'] = this.views;
-    data['playmonth'] = this.playmonth;
-    data['numplays'] = this.numplays;
-    data['numplays_month'] = this.numplaysMonth;
-    data['numfans'] = this.numfans;
-    return data;
   }
 }

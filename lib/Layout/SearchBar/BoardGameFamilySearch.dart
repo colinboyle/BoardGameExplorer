@@ -18,7 +18,7 @@ class BoardGameFamilySearch extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       child:
       InkWell(
-        onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(this.id)));},
+        onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(this.id, this.mechanic)));},
         child: 
       Container( 
         height: 100,

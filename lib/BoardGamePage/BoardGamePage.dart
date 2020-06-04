@@ -2,6 +2,7 @@ import 'dart:ui';
 
 //import 'package:board_game_app/Common/Skeleton.dart';
 import 'package:board_game_app/DataTypes/MarketOffers.dart';
+import 'package:board_game_app/MechanicList/MechanicList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -150,7 +151,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 ),
               ), //Create bottom spacing
               Container(
-                decoration: BoxDecoration(color: Colors.black, gradient: RadialGradient(radius: 2.5,center: Alignment(.9,0), stops: [0, 0.2, 0.3, 0.6, 1], colors: [Colors.grey[900].withOpacity(0.7),Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(.90),Colors.grey[900].withOpacity(.95), Colors.grey[900]])),
+                decoration: BoxDecoration(color: Colors.black, gradient: RadialGradient(radius: 2.3,center: Alignment(.9,0), stops: [0, 0.2, 0.3, 0.6], colors: [Colors.grey[900].withOpacity(0.7),Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(.95),Colors.grey[900]])),
                 height: 160,
                 width: MediaQuery.of(context).size.width
               ),
@@ -172,13 +173,14 @@ class _BoardGamePageState extends State<BoardGamePage> {
                   ),
                 ]),
                 Spacer(),
-                Container(child:
+                Container(height: 160,child:
                 //Expanded( child: Align( alignment: Alignment.center,child:
-                Column(mainAxisSize: MainAxisSize.max, //mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
+                Column(mainAxisSize: MainAxisSize.min, //mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
                 children: <Widget>[
                   //Expanded(child:
+                  Spacer(),
                   Container( width: 200, child: 
-                    AutoSizeText('${game.name}',maxFontSize: 22, presetFontSizes: [25,22,18,16] ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle( color: Colors.white),),
+                    AutoSizeText('${game.name} (${game.yearPublished})',maxFontSize: 22, presetFontSizes: [18,16] ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle( color: Colors.white),),
                   ),//),
                   Text('By: ${game.designer}', style: TextStyle(color: Colors.white, fontSize: 10),),
                   SizedBox(height: 10,),
@@ -189,11 +191,14 @@ class _BoardGamePageState extends State<BoardGamePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 26,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.rating}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
-                      Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 26),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlayers}-${game.maxPlayers}', style: Theme.of(context).textTheme.subtitle1), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
-                      Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 26),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlaytime}-${game.maxPlaytime}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nmins', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 20,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.rating}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlayers}-${game.maxPlayers}', style: Theme.of(context).textTheme.subtitle1), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlaytime}-${game.maxPlaytime}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nmins', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.person, color: Colors.grey, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.age}+',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nyears', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
                     ],
                   ),),),
+                  //Positioned( child: 
+                  Expanded( child: Align(alignment: Alignment.bottomCenter, child: GestureDetector(onTap: (){_launchInBrowser('/boardgame/${game.id}');}, child: Container(alignment: Alignment.center,width: 100, height: 25, decoration: BoxDecoration(color: Colors.blue[900],borderRadius: BorderRadius.all(Radius.circular(10))), child: Text('Visit on BGG', textAlign: TextAlign.center, style: Theme.of(context).textTheme.subtitle1)))))
                 ]),),
                 Spacer()//,),),
               ]),
@@ -241,13 +246,11 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 itemCount: game.mechanic.length,
                 itemBuilder: (context, index){ return 
                   Padding( padding: EdgeInsets.symmetric(vertical: 10.0), child:
-                  GestureDetector(
-                    onTap: (){print('Selected mechanic ${game.mechanic[index]}');}, 
-                    child:
+                  GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(game.mechanic[index].id, game.mechanic[index].name)));},child:
                   Container(
                     height: 15,
-                    decoration: BoxDecoration(color: widget._hashColors.getHashColors(game.mechanic[index])[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Padding(padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5), child: Text('${game.mechanic[index]}', style: Theme.of(context).textTheme.caption,),)
+                    decoration: BoxDecoration(color: widget._hashColors.getHashColors(game.mechanic[index].name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Padding(padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5), child: Text('${game.mechanic[index].name}', style: Theme.of(context).textTheme.caption,),)
                   )));
                 }),
               ),

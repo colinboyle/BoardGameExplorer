@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 import 'package:board_game_app/DataTypes/GameRecs.dart';
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
@@ -9,8 +10,9 @@ import 'package:board_game_app/MechanicList/mechanic_list_bloc.dart';
 
 class MechanicList extends StatefulWidget {
   final String mechanicId;
+  final String mechanicName;
 
-  MechanicList(this.mechanicId);
+  MechanicList(this.mechanicId, this.mechanicName);
 
   @override
   _MechanicListState createState() => _MechanicListState();
@@ -46,6 +48,7 @@ class _MechanicListState extends State<MechanicList> {
         Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
           Column(children: <Widget>[
             Container(height: 120),
+            Text(widget.mechanicName, style: Theme.of(context).textTheme.headline3,),
             StreamBuilder<ApiResponse<GameRecs>>(
               stream: mechanicListStream,
               builder: (context, snapshot) {
@@ -56,7 +59,7 @@ class _MechanicListState extends State<MechanicList> {
                     case Status.COMPLETED:
                       if(snapshot.data.data.numrecs > 0){
                        return 
-                       Container(height: MediaQuery.of(context).size.height -120, child:
+                       Container(height: MediaQuery.of(context).size.height -150, child:
                        ListView.builder(
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data.data.recs.length,
@@ -69,9 +72,9 @@ class _MechanicListState extends State<MechanicList> {
                               Container(height: 100, color: Colors.white, child:
                                 Padding(padding: EdgeInsets.all(10), child:
                                 Row( children: <Widget>[
-                                  Image.network(snapshot.data.data.recs[index].recitem.item.images.square200, height: 100,),
+                                  Container( height: 100, width: 100, child: Image.network(snapshot.data.data.recs[index].recitem.item.images.square200, height: 100,)),
                                   Expanded( child: Column( children: <Widget>[
-                                    Text(snapshot.data.data.recs[index].recitem.item.primaryname.name, style: Theme.of(context).textTheme.headline2,),
+                                    AutoSizeText(snapshot.data.data.recs[index].recitem.item.primaryname.name, maxLines: 1, style: Theme.of(context).textTheme.headline2,),
                                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
                                       Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 26,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:(snapshot.data.data.recs[index].recitem.item.dynamicinfo.item.stats.average + '.00').substring(0,3), style: Theme.of(context).textTheme.bodyText2),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.grey))]))]),
                                       Column(children: <Widget>[Icon(Icons.fitness_center, color: Colors.grey, size: 26,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:(snapshot.data.data.recs[index].recitem.item.dynamicinfo.item.polls.boardgameweight.averageweight.toString() + '.00').substring(0,3), style: Theme.of(context).textTheme.bodyText2),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.grey))]))]),
