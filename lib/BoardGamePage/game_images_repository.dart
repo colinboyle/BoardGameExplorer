@@ -10,7 +10,7 @@ class GameImagesRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<GameImages> fetchGameImages(String gameId) async {
-    final url = 'images?objectid=$gameId&objecttype=thing&showcount=17&size=crop100&sort=hot';
+    final url = 'api/images?objectid=$gameId&objecttype=thing&showcount=17&size=crop100&sort=hot';
     final response = await _helper.getJSON(url);
     return GameImagesResponse.fromJSON(response).result;//response).result;
   }

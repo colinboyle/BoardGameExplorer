@@ -5,7 +5,7 @@ import './api_exceptions.dart';
 
 class ApiBaseHelper {
   final String _baseUrl = "https://www.boardgamegeek.com/";
-  final String _baseJSONUrl = "https://api.geekdo.com/api/";
+  final String _baseJSONUrl = "https://api.geekdo.com/";
 
   Future<dynamic> get(String url) async {
       var responseXml;

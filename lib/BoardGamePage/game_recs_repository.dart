@@ -11,7 +11,7 @@ class GameRecsRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<GameRecs> fetchGameRecs(String gameId) async {
-    final url = 'geekitem/recs?ajax=1&objectid=$gameId&objecttype=thing&pageid=1';
+    final url = 'api/geekitem/recs?ajax=1&objectid=$gameId&objecttype=thing&pageid=1';
     final response = await _helper.getJSON(url);
     return GameRecsResponse.fromJSON(response).result;//response).result;
   }

@@ -11,7 +11,7 @@ class MarketOffersRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<MarketOffers> fetchMarketOffers(String gameId) async {
-    final url = 'geekmarket/products?ajax=1&nosession=1&objectid=$gameId&objecttype=thing&pageid=1&showcount=5&stock=instock';
+    final url = 'api/geekmarket/products?ajax=1&nosession=1&objectid=$gameId&objecttype=thing&pageid=1&showcount=5&stock=instock';
     final response = await _helper.getJSON(url);
     return MarketOffersResponse.fromJSON(response).result;//response).result;
   }

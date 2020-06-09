@@ -4,6 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameList.dart';
 
+import 'HomeScreen/GameVideos/GameVideosList.dart';
+
 
 
 void main() => runApp(MyApp());
@@ -82,6 +84,21 @@ class Home extends StatelessWidget {
                             height: 200,
                             width: MediaQuery.of(context).size.width,
                             child: TrendingGameList()
+                          )
+                        ],
+                      ),
+                    ] ,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('REVIEWS', style: Theme.of(context).textTheme.headline5,),
+                          Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: GameVideosList()
                           )
                         ],
                       ),
