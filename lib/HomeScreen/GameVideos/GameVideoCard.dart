@@ -20,6 +20,7 @@ class _GameVideoCardState extends State<GameVideoCard> {
           flags: YoutubePlayerFlags(
               mute: false,
               autoPlay: false,
+              disableDragSeek: true,
           ),
       );
       super.initState();

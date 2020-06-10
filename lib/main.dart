@@ -5,6 +5,8 @@ import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameList.dart';
 
 import 'HomeScreen/GameVideos/GameVideosList.dart';
+import 'HomeScreen/NewReleases/NewReleasesList.dart';
+
 
 
 
@@ -99,6 +101,21 @@ class Home extends StatelessWidget {
                             height: 200,
                             width: MediaQuery.of(context).size.width,
                             child: GameVideosList()
+                          )
+                        ],
+                      ),
+                    ] ,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('NEW RELEASES', style: Theme.of(context).textTheme.headline5,),
+                          Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: NewReleasesList()
                           )
                         ],
                       ),

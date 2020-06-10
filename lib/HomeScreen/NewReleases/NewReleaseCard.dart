@@ -1,16 +1,17 @@
+//import 'package:video_player/video_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:board_game_app/MechanicList/MechanicList.dart';
-import 'package:board_game_app/utils/getHashColors.dart';
+import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/utils/getSplitWords.dart';
 import 'package:flutter/material.dart';
-import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 
-class TrendingGameCard extends StatelessWidget{
+//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+class NewReleaseCard extends StatelessWidget {
   final BoardGame gameData;
-  TrendingGameCard(this.gameData);
+  NewReleaseCard(this.gameData);
   var _stringSplit = new GetSplitWords();
-  var _hashColors = new GetHashColors();
+  //var _hashColors = new GetHashColors();
   
   @override 
   Widget build(BuildContext context){
@@ -50,11 +51,11 @@ class TrendingGameCard extends StatelessWidget{
                           //Spacer(),
                           Container( child:
                           //LimitedBox( maxHeight: 90, child:
-                          ConstrainedBox(constraints: BoxConstraints(maxHeight: 80) ,child: Column(children: <Widget>[
-                            if(_stringSplit.firstWords != null) Container(width: 110,child: AutoSizeText(_stringSplit.firstWords, maxLines: 2, wrapWords: false, style: Theme.of(context).textTheme.headline2)),
+                          Column(children: <Widget>[
+                            if(_stringSplit.firstWords != null) Container(width: 100,child: AutoSizeText( _stringSplit.firstWords, maxLines: 2, wrapWords: false, style: Theme.of(context).textTheme.headline2)),
                             Container(width: 110,child: AutoSizeText(_stringSplit.lastWords, maxLines: 1, wrapWords: false, style: Theme.of(context).textTheme.headline3)),
                             Container(width: 110,child: AutoSizeText(gameData.boardGamePublisher, maxLines: 1, wrapWords: false, style: TextStyle(fontSize: 13, color: Colors.black54))),
-                          ],),),),
+                          ],),),
                           //TextSpan(text: _stringSplit.firstWords + '\n', style: Theme.of(context).textTheme.headline2),
                           //TextSpan(text: _stringSplit.lastWord, style: Theme.of(context).textTheme.headline3),
                           //TextSpan(text: '\n${gameData.boardGamePublisher}', style: TextStyle(fontSize: 13, color: Colors.black54),),
@@ -63,28 +64,25 @@ class TrendingGameCard extends StatelessWidget{
                           //wrapWords: false,
                           //),
                           //Row(children: <Widget>[
-                            Spacer(),
+                            //Spacer(),
                             //Wrap(
                             //alignment: WrapAlignment.center,
                             //runAlignment: WrapAlignment.center,
                             //children: <Widget>[
-                              Row(children: <Widget>[Expanded( child: Column(crossAxisAlignment: CrossAxisAlignment.center ,children: <Widget>[
-                                GestureDetector(onTap: (){print('no category page');},child:
-                                Container(
-                                  //width: 25,
-                                  height: 15,
-                                  decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic[0].name}', style: Theme.of(context).textTheme.caption,),)
-                              )),
-                              GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(gameData.mechanic.first.id,gameData.mechanic.first.name)));},child:
-                                Container(
-                                  //width: 25,
-                                  height: 15,
-                                  decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first.name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
-                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic[1].name}', style: Theme.of(context).textTheme.caption,),)
-                              )),
-                              ],),), SizedBox(width: 25,)],),
-                              
+                            //  GestureDetector(onTap: (){print('no category page');},child:
+                            //    Container(
+                            //      //width: 25,
+                            //      height: 15,
+                            //      decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                            //      child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.category.first}', style: Theme.of(context).textTheme.caption,),)
+                            //  )),
+                            //  GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(gameData.mechanic.first.id,gameData.mechanic.first.name)));},child:
+                            //    Container(
+                            //      //width: 25,
+                            //      height: 15,
+                            //      decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first.name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                            //      child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic.first.name}', style: Theme.of(context).textTheme.caption,),)
+                            //  )),
                           //],),
                           //],),   //),
                           Spacer(),
