@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w300,
             letterSpacing: 1,
           ),
-          caption: TextStyle(fontSize: 8, color: Colors.black),
+          caption: TextStyle(fontSize: 6, color: Colors.black),
         ),
         primaryColor: Colors.purple[900],
         iconTheme: IconThemeData(color: Colors.white, size: 28),
@@ -75,7 +75,10 @@ class Home extends StatelessWidget {
               Container( height: MediaQuery.of(context).size.height-220, width: MediaQuery.of(context).size.width,child:
               ListView(
                 scrollDirection: Axis.vertical,
+                addAutomaticKeepAlives: true,
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0) ,
                 children: <Widget>[
+                  //Container( height: 10, color: Colors.red),
                   Row(
                     children: <Widget>[
                       Column(
@@ -83,7 +86,7 @@ class Home extends StatelessWidget {
                         children: <Widget>[
                           Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,),
                           Container(
-                            height: 200,
+                            height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: TrendingGameList()
                           )
@@ -98,7 +101,7 @@ class Home extends StatelessWidget {
                         children: <Widget>[
                           Text('REVIEWS', style: Theme.of(context).textTheme.headline5,),
                           Container(
-                            height: 200,
+                            height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: GameVideosList()
                           )

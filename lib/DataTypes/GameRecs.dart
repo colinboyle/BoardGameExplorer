@@ -244,7 +244,7 @@ class Best {
 
 class Boardgameweight {
   double averageweight;
-  String votes;
+  dynamic votes;
 
   Boardgameweight({this.averageweight, this.votes});
 

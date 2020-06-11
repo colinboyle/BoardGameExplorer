@@ -301,7 +301,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                                     Stack(alignment: Alignment.bottomCenter, children: <Widget>[
                                       snapshot.data.data.products[index].images != null && snapshot.data.data.products[index].images[0].canonicalLink != null ? Image.network(snapshot.data.data.products[index].images[0].images.square200.url, height: 100,) : Container(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[4], child: Center(child:Text(snapshot.data.data.products[index].prettycondition, style: TextStyle(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], fontSize: 18, fontWeight: FontWeight.w800)) )),
                                       Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black54, child: Center(child: AutoSizeText('${snapshot.data.data.products[index].currencysymbol}${snapshot.data.data.products[index].price}', textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),)),
-                                      Positioned(right: 3, top: 3, child: Container(width: 20, height: 20, decoration: BoxDecoration(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], borderRadius: BorderRadius.all(Radius.circular(10))), child: Text(snapshot.data.data.products[index].conditioncode.toUpperCase(), textAlign: TextAlign.center,))),
+                                      Positioned(right: 3, top: 3, child: Container( alignment: Alignment.center , width: 20, height: 20, decoration: BoxDecoration(color: widget._hashColors.getHashColors(snapshot.data.data.products[index].prettycondition)[2], borderRadius: BorderRadius.all(Radius.circular(10))), child: Text(snapshot.data.data.products[index].conditioncode.toUpperCase(), textAlign: TextAlign.center,))),
                                       Positioned(left: 3, top: 3, child: Image.network(snapshot.data.data.products[index].flagimgurl, width: 20, height: 20,)),
                                     ],)
                                   ),
@@ -460,17 +460,17 @@ class SearchSection extends StatelessWidget {
   }
 }
 
-class GameRecList extends StatelessWidget {
-  GameRecs games;
-  int numRecs;
-
-  GameRecList(this.games, this.numRecs);
-  @override 
-  Widget build(BuildContext context) {
-    return Text('nah');
-
-  }
-}
+//class GameRecList extends StatelessWidget {
+//  final GameRecs games;
+//  final int numRecs;
+//
+//  GameRecList(this.games, this.numRecs);
+//  @override 
+//  Widget build(BuildContext context) {
+//    return Text('nah');
+//
+//  }
+//}
 
 class LoadingGamePage extends StatelessWidget{
   @override 

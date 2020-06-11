@@ -7,7 +7,7 @@ class MechanicListRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<GameRecs> fetchMechanicList(String mechanicId) async {
-    final response = await _helper.getJSON("geekitem/recs/boardgamemechanic?ajax=1&linkdata_index=boardgame&objectid=$mechanicId&objecttype=property&pageid=1");
+    final response = await _helper.getJSON("api/geekitem/recs/boardgamemechanic?ajax=1&linkdata_index=boardgame&objectid=$mechanicId&objecttype=property&pageid=1");
     return MechanicListResponse.fromJson(response).results;
   }
 }

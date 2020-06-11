@@ -64,8 +64,8 @@ class BoardGame {
   BoardGame.fromNodeFullDetails(XmlElement node){
     id = node.getAttribute('id');
     name = node.findAllElements('name').where((element) => element.getAttribute('type') == 'primary').first.getAttribute('value');
-    imageUrl = node.findAllElements('thumbnail').first.text;
-    fullImageUrl = node.findAllElements('image').first.text;
+    imageUrl = node.findAllElements('thumbnail').length>0 ? node.findAllElements('thumbnail').first.text : 'https://via.placeholder.com/200x150?text=No%20Image%20Available';
+    fullImageUrl = node.findAllElements('image').length>0 ? node.findAllElements('image').first.text : 'https://via.placeholder.com/200x150?text=No%20Image%20Available';
     yearPublished = node.findAllElements('yearpublished').first.getAttribute('value');
     minPlayers = node.findAllElements('minplayers').first.getAttribute('value');
     maxPlayers = node.findAllElements('maxplayers').first.getAttribute('value');
