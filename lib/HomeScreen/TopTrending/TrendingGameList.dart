@@ -24,49 +24,21 @@ class _TrendingGameListState extends State<TrendingGameList> {
 
   @override
   Widget build(BuildContext context) {
-    //return //Text('Getting closer');
-    //  FutureBuilder(
-    //    future:  _bloc.fetchTrendingGameList(),
-    //    //child: StreamBuilder<ApiResponse<List<BoardGame>>>(
-    //      //stream: _bloc.boardGameListStream,
-    //    builder: (context, snapshot) {
-    //      switch (snapshot.connectionState) {
-    //        case ConnectionState.waiting:
-    //          {
-    //            // here we are showing loading view in waiting state.
-    //            return Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
-    //          }
-    //        case ConnectionState.active:
-    //          {
-    //            break;
-    //          }
-    //        case ConnectionState.none:
-    //          {
-    //            break;
-    //          }
-    //        case ConnectionState.done:
-    //          {if (snapshot.hasData) {
-    //            print(snapshot);
-    //            return ListView.builder(
-    //              scrollDirection: Axis.horizontal,
-    //              itemCount: snapshot.data.length,
-    //              itemBuilder: (BuildContext context, int index){ return TrendingGameCard(snapshot.data[index]);},);
-    //            
-    //          }
-    //        }
-    //      }
-    //      return Container();
-    //    },
-    //    //),
-    //  );
     return StreamBuilder<ApiResponse<List<BoardGame>>>(
       stream: _bloc.trendingGameStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           switch (snapshot.data.status) {
             case Status.LOADING:
-                // here we are showing loading view in waiting state.
-                return Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
+                return 
+                ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index){ 
+                    return 
+                    new LoadingCard();
+                    },);
+
             case Status.COMPLETED:
                 return 
                 ListView.builder(
@@ -90,5 +62,61 @@ class _TrendingGameListState extends State<TrendingGameList> {
     void dispose() {
     _bloc.dispose();
     super.dispose();
+  }
+}
+
+class LoadingCard extends StatelessWidget{
+  @override 
+  Widget build(BuildContext context) {
+    return 
+    Container(width: 250, height: 150, decoration: BoxDecoration(color: Colors.white, ), margin: EdgeInsets.all(5), child:
+        Stack(children: <Widget>[
+          Padding( padding: EdgeInsets.only(left: 5), child:
+            Row(children: <Widget>[
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                Container(width: 110, height: 120, color: Colors.grey[100])
+              ]),
+              //SizedBox(width: 10),
+              Expanded(child:
+                Padding( padding: EdgeInsets.fromLTRB(15, 15, 15, 10), child: 
+                  SizedBox(height: 120, child:
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                      Row( children: [Container(width: 100, height: 15, color: Colors.grey[200],)]),
+                      Row( children: [Container(width: 80, height: 18, color: Colors.grey[200],)]),
+                      Row( children: [Container(width: 70, height: 12, color: Colors.grey[200],)]),
+                      Spacer(),
+                      Row(children: <Widget>[
+                        Expanded( child: 
+                          Column(crossAxisAlignment: CrossAxisAlignment.center ,children: <Widget>[
+                              Container(
+                                height: 15,
+                                decoration: BoxDecoration(color: Colors.grey[400], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Container(width: 40),)
+                              ),
+                              Container(
+                                height: 15,
+                                decoration: BoxDecoration(color: Colors.grey[400], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Container(width: 60),)
+                              )                          
+                          ]),
+                        ), 
+                        //SizedBox(width: 25,)
+                      ]),
+                      Spacer(),
+                      Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(width: 20, height: 20, decoration: BoxDecoration(color: Colors.grey[400] ,borderRadius: BorderRadius.all(Radius.circular(10))),),
+                        Container(width: 20, height: 20, decoration: BoxDecoration(color: Colors.grey[400] ,borderRadius: BorderRadius.all(Radius.circular(10))),),
+                        Container(width: 20, height: 20, decoration: BoxDecoration(color: Colors.grey[400] ,borderRadius: BorderRadius.all(Radius.circular(10))),),
+                      ]),
+                    ])
+                  )
+                )
+              ),
+            ]),
+          ),
+        ])
+      );
   }
 }

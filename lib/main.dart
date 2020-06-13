@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Game Geek',
       theme: ThemeData(
         textTheme: TextTheme(  
@@ -116,7 +117,7 @@ class Home extends StatelessWidget {
                         children: <Widget>[
                           Text('NEW RELEASES', style: Theme.of(context).textTheme.headline5,),
                           Container(
-                            height: 200,
+                            height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: NewReleasesList()
                           )
@@ -124,34 +125,34 @@ class Home extends StatelessWidget {
                       ),
                     ] ,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
-                          Container(
-                            height: 150,
-                            width: MediaQuery.of(context).size.width,
-                            child:
-                            ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 12,
-                              itemBuilder: (BuildContext context, int index){ 
-                                return Container(
-                                  width: 100,
-                                  height: 125,
-                                  margin: EdgeInsets.all(5),
-                                  color: Colors.blueGrey[50],
-                                  child: Text('TODO game box',style: TextStyle(color:Colors.black))
-                                );
-                              }
-                            )
-                          )
-                        ],
-                      ),
-                    ] 
-                  ),
+                  //Row(
+                  //  children: <Widget>[
+                  //    Column(
+                  //      crossAxisAlignment: CrossAxisAlignment.start,
+                  //      children: <Widget>[
+                  //        Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
+                  //        Container(
+                  //          height: 150,
+                  //          width: MediaQuery.of(context).size.width,
+                  //          child:
+                  //          ListView.builder(
+                  //            scrollDirection: Axis.horizontal,
+                  //            itemCount: 12,
+                  //            itemBuilder: (BuildContext context, int index){ 
+                  //              return Container(
+                  //                width: 100,
+                  //                height: 125,
+                  //                margin: EdgeInsets.all(5),
+                  //                color: Colors.blueGrey[50],
+                  //                child: Text('TODO game box',style: TextStyle(color:Colors.black))
+                  //              );
+                  //            }
+                  //          )
+                  //        )
+                  //      ],
+                  //    ),
+                  //  ] 
+                  //),
                   Row(
                     children: <Widget>[
                       Container(
