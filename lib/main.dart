@@ -1,3 +1,4 @@
+import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -5,6 +6,7 @@ import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameList.dart';
 
 import 'HomeScreen/GameVideos/GameVideosList.dart';
+import 'HomeScreen/GeekList/GeekListList.dart';
 import 'HomeScreen/NewReleases/NewReleasesList.dart';
 
 
@@ -75,6 +77,7 @@ class Home extends StatelessWidget {
               Container(height: 220),
               Container( height: MediaQuery.of(context).size.height-220, width: MediaQuery.of(context).size.width,child:
               ListView(
+                shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 addAutomaticKeepAlives: true,
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0) ,
@@ -156,9 +159,14 @@ class Home extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Container(
-                       height: 150,
+                       height: 300,
                        width: MediaQuery.of(context).size.width,
-                       child: Text('NEW FORUMS', style: Theme.of(context).textTheme.headline5,)
+                       child: Column(children: <Widget>[
+                          Text('GEEK LISTS', style: Theme.of(context).textTheme.headline5,),
+                          Container(height: 200, child: 
+                            GeekListList(),
+                          ),
+                       ],) 
                       )
                     ] 
                   ),

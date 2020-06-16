@@ -1,4 +1,5 @@
 import 'package:board_game_app/DataTypes/BoardGame.dart';
+import 'package:board_game_app/DataTypes/NewRelease.dart';
 import 'package:board_game_app/DataTypes/NewReleases.dart';
 import 'package:board_game_app/HomeScreen/NewReleases/NewReleaseCard.dart';
 import 'package:board_game_app/HomeScreen/NewReleases/new_releases_bloc.dart';
@@ -26,7 +27,7 @@ class _NewReleasesListState extends State<NewReleasesList> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ApiResponse<List<BoardGame>>>(
+    return StreamBuilder<ApiResponse<List<NewRelease>>>(
       stream: _bloc.newReleasesStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {

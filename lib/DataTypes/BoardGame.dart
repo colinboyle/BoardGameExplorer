@@ -48,7 +48,8 @@ class BoardGame {
     this.boardGamePublisher,
     this.mechanic, 
     this.rating,
-    this.weight
+    this.weight,
+    this.ranks
     //this.category 
   );
 
@@ -76,9 +77,9 @@ class BoardGame {
     minPlaytime = node.findAllElements('minplaytime').first.getAttribute('value');
     maxPlaytime = node.findAllElements('maxplaytime').first.getAttribute('value');
     age = node.findAllElements('minage').first.getAttribute('value');
-    description = unescape.convert(node.findAllElements('description').first.text);
+    description = unescape.convert(node.findAllElements('description').first.text).trim();
     designer = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').first.getAttribute('value') ?? '';
-    boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value');
+    boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value') ?? 'No publisher';
     mechanic = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamemechanic').map((n) => new Mechanic.fromNode(n)).toList();//n.getAttribute('value')).toList();//.addAll((i) => i.getAttribute('value'));
     category = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamecategory').map((n) => n.getAttribute('value')).toList();
     rating = (node.findAllElements('ratings').first.findAllElements('average').first.getAttribute('value')+'.00').substring(0,3); //Maybe should be using a float or something since this feels hacky...
