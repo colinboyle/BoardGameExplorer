@@ -24,6 +24,8 @@ class NewRelease extends BoardGame{
     rating,
     weight,
     ranks,
+    recPlayers,
+    recPlaytime,
     this.versionId, 
     this.versionName, 
     this.releaseDate, 
@@ -45,6 +47,8 @@ class NewRelease extends BoardGame{
     mechanic, 
     rating,
     weight,
-    ranks
+    ranks,
+    recPlayers,
+    recPlaytime
   );
 }

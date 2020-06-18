@@ -47,6 +47,8 @@ class NewReleasesBloc {
                 rating:               game.rating,
                 weight:               game.weight,
                 ranks:                game.ranks,
+                recPlayers:           game.recPlayers,
+                recPlaytime:          game.recPlaytime,
                 versionId:            release.version.objectid, 
                 versionName:          release.version.name, 
                 releaseDate:          release.date, 

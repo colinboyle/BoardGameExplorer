@@ -14,8 +14,10 @@ class BoardGame {
   String yearPublished;
   String minPlayers;
   String maxPlayers;
+  String recPlayers;
   String minPlaytime;
   String maxPlaytime;
+  String recPlaytime;
   String age;
   String description;
   String boardGamePublisher;
@@ -49,7 +51,9 @@ class BoardGame {
     this.mechanic, 
     this.rating,
     this.weight,
-    this.ranks
+    this.ranks,
+    this.recPlayers,
+    this.recPlaytime
     //this.category 
   );
 
@@ -88,6 +92,8 @@ class BoardGame {
       ranks = new List<Ranks>();
       node.findAllElements('statistics').first.findAllElements('ratings').first.findAllElements('ranks').first.findAllElements('rank').forEach((e) => ranks.add( new Ranks.fromXml(e)));
     }
+    minPlayers == maxPlayers ? recPlayers = minPlayers : recPlayers = '$minPlayers - $maxPlayers';
+    minPlaytime == maxPlaytime ? recPlaytime = minPlaytime : recPlaytime = '$minPlaytime - $maxPlaytime';
   }
 }
 

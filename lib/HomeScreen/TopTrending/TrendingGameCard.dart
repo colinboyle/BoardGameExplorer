@@ -63,8 +63,8 @@ class TrendingGameCard extends StatelessWidget{
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 14,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${gameData.rating}',style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nstars', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
-                        Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${gameData.minPlayers}-${gameData.maxPlayers}', style: TextStyle(fontSize: 7, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
-                        Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${gameData.minPlaytime}-${gameData.maxPlaytime}',style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                        Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:gameData.recPlayers, style: TextStyle(fontSize: 7, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                        Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:gameData.recPlaytime,style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
                       ]),
                     ])
                   )
