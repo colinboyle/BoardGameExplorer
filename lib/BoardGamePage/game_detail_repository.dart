@@ -8,7 +8,7 @@ class GameDetailRepository {
   ApiBaseHelper _helper = ApiBaseHelper();
 
   Future<BoardGame> fetchGameDetail(String id) async {
-    final response = await _helper.get("xmlapi2/thing?thing=boardgame&stats=1&id=" + id);
+    final response = await _helper.get("xmlapi2/thing?thing=boardgame&videos=1&stats=1&id=" + id);
     return GameDetailResponse.fromXml(response).result;
   }
 }

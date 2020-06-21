@@ -26,6 +26,7 @@ class NewRelease extends BoardGame{
     ranks,
     recPlayers,
     recPlaytime,
+    videos,
     this.versionId, 
     this.versionName, 
     this.releaseDate, 
@@ -49,6 +50,7 @@ class NewRelease extends BoardGame{
     weight,
     ranks,
     recPlayers,
-    recPlaytime
+    recPlaytime,
+    videos
   );
 }

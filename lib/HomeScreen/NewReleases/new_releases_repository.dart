@@ -14,7 +14,7 @@ class NewReleasesRepository {
   }
 
   Future<List<BoardGame>> fetchNewReleasesDataList(String ids) async {
-    final response = await _helper.get("xmlapi2/thing?thing=boardgame&stats=1&id="+ids);
+    final response = await _helper.get("xmlapi2/thing?thing=boardgame&stats=1&videos=1&id="+ids);
     return NewReleasesResponse.fromXmlGameDataList(response).gameListResults;
   }
 }

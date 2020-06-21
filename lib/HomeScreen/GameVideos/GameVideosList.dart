@@ -39,7 +39,8 @@ class _GameVideosListState extends State<GameVideosList> {
                   itemCount: snapshot.data.data.videos.length,
                   itemBuilder: (BuildContext context, int index){ 
                     return 
-                    new GameVideoCard(snapshot.data.data.videos[index]);
+                      Container(margin: EdgeInsets.symmetric(horizontal: 5), child: new GameVideoCard(snapshot.data.data.videos[index], 260, 180),);
+                      
                     },);
             case Status.ERROR:
               return  Text('error', style: TextStyle(color: Colors.black));
@@ -55,5 +56,14 @@ class _GameVideosListState extends State<GameVideosList> {
   void dispose() {
     _bloc.dispose();
     super.dispose();
+  }
+}
+
+class Gam extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
 import 'package:html_unescape/html_unescape.dart';
 
@@ -27,6 +26,7 @@ class BoardGame {
   String rating;
   String weight;
   List<Ranks> ranks;
+  List<GameVideoLink> videos;
   //String integration; //think this is expansions...?
 
   var unescape = new HtmlUnescape();
@@ -53,7 +53,8 @@ class BoardGame {
     this.weight,
     this.ranks,
     this.recPlayers,
-    this.recPlaytime
+    this.recPlaytime,
+    this.videos
     //this.category 
   );
 
@@ -92,6 +93,10 @@ class BoardGame {
       ranks = new List<Ranks>();
       node.findAllElements('statistics').first.findAllElements('ratings').first.findAllElements('ranks').first.findAllElements('rank').forEach((e) => ranks.add( new Ranks.fromXml(e)));
     }
+    if(node.findAllElements('videos').length != 0 && node.findAllElements('videos').first.findAllElements('video').first != null ){
+      videos = new List<GameVideoLink>();
+      node.findAllElements('videos').first.findAllElements('video').forEach((el) => videos.add( new GameVideoLink.fromXml(el)));
+    }
     minPlayers == maxPlayers ? recPlayers = minPlayers : recPlayers = '$minPlayers - $maxPlayers';
     minPlaytime == maxPlaytime ? recPlaytime = minPlaytime : recPlaytime = '$minPlaytime - $maxPlaytime';
   }
@@ -120,5 +125,25 @@ class Ranks {
     id = rank.getAttribute('id');
     value = rank.getAttribute('value');
     name = rank.getAttribute('friendlyname').replaceAll(' Rank', '');
+  }
+}
+
+class GameVideoLink {
+  String videoid;
+  String title;
+  String category;
+  String language;
+  String link;
+  String username;
+  String postDate;
+
+  GameVideoLink.fromXml(XmlElement linkNode){
+    videoid = linkNode.getAttribute('id');
+    title = linkNode.getAttribute('title');
+    category = linkNode.getAttribute('category') ?? 'other';
+    language = linkNode.getAttribute('language');
+    link = linkNode.getAttribute('link');
+    username = linkNode.getAttribute('username');
+    postDate = linkNode.getAttribute('postdate');
   }
 }

@@ -19,7 +19,7 @@ class TrendingGameListRepository {
   }
 
   Future<List<BoardGame>> fetchTrendingGameDataList(String ids) async {
-    final response = await _helper.get("xmlapi2/thing?thing=boardgame&stats=1&id="+ids);
+    final response = await _helper.get("xmlapi2/thing?thing=boardgame&stats=1&videos=1&id="+ids);
     return TrendingGameListResponse.fromXmlGameDataList(response).results;
   }
 }

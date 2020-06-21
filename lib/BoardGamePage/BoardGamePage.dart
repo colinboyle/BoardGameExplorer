@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 //import 'package:board_game_app/Common/Skeleton.dart';
+import 'package:board_game_app/DataTypes/GameVideos.dart';
 import 'package:board_game_app/DataTypes/MarketOffers.dart';
+import 'package:board_game_app/HomeScreen/GameVideos/GameVideoCard.dart';
 import 'package:board_game_app/MechanicList/MechanicList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,11 +26,9 @@ class BoardGamePage extends StatefulWidget {
   final BoardGame gameData;
   final bool needFullInfo;
   final String gameid;
-  //String id;
   var _hashColors = new GetHashColors();
 
   BoardGamePage(this.gameid, this.gameData, this.needFullInfo);
-  //BoardGamePage.needInfo(this.gameid, this.gameData this.needFullInfo);
 
   @override
   _BoardGamePageState createState() => _BoardGamePageState();
@@ -43,9 +43,9 @@ class _BoardGamePageState extends State<BoardGamePage> {
   var broadcastGameImagesStream;
   var gameRecsStream;
   var marketOffersStream;
-  //Future<BoardGame> futureBoardGame;
+  var gameVideosStream;
 
-  _BoardGamePageState();//this.title, this.url);
+  _BoardGamePageState();
 
   @override
   void initState() {
@@ -58,20 +58,16 @@ class _BoardGamePageState extends State<BoardGamePage> {
       broadcastGameImagesStream = _bloc.gameImagesStream.asBroadcastStream();
       gameRecsStream = _bloc.gameRecsStream;
       marketOffersStream = _bloc.marketOffersStream; 
+      gameVideosStream = _bloc.gameVideosStream;
       getGameData(widget.gameid);
-      //});
     } else {
       super.initState();
       _bloc = BoardGamePageBloc(game.id);
       broadcastGameImagesStream = _bloc.gameImagesStream.asBroadcastStream();
       gameRecsStream = _bloc.gameRecsStream;
       marketOffersStream = _bloc.marketOffersStream; 
+      gameVideosStream = _bloc.gameVideosStream;
     }
-    
-    //if(widget.needFullInfo) widget.game = await _bloc.fetchGameDetails(widget.id);
-    //_bloc.fetchGameImages(widget.game.id);
-    //futureBoardGame = _bloc.fetchBoardGame(widget.game.id);
-    //_hashColors = new GetHashColors();
   }
 
   getGameData(id) async {
@@ -87,7 +83,6 @@ class _BoardGamePageState extends State<BoardGamePage> {
         'https://boardgamegeek.com'+url,
         forceSafariVC: false,
         forceWebView: false,
-        //headers: <String, String>{'my_header_key': 'my_header_value'},
       );
     } else {
       throw 'Could not launch $url';
@@ -96,13 +91,8 @@ class _BoardGamePageState extends State<BoardGamePage> {
   }
 
   openGame(context, String href) async{
-    //print('Game id from onTap no game data');
     String id = href.split('/')[2];
-    //print(id);
-    //BoardGame game = await _bloc.fetchGameDetails(id);
-    ////print(game.name);
     Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(id, null, true)));
-    //getGameData(id);
   }
 
   @override
@@ -117,10 +107,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
       body:Stack( children: <Widget>[
         Column(children: <Widget>[
           SizedBox(height: 100,),
-          //Container( width: MediaQuery.of(context).size.width, child: 
-          //Row( mainAxisSize: MainAxisSize.max, children: <Widget>[
           Container(
-            //color:Colors.gre
             child:
             Stack(children: <Widget>[
               Container( 
@@ -149,7 +136,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                     }
                   ),
                 ),
-              ), //Create bottom spacing
+              ), 
               Container(
                 decoration: BoxDecoration(color: Colors.black, gradient: RadialGradient(radius: 2.3,center: Alignment(.9,0), stops: [0, 0.2, 0.3, 0.6], colors: [Colors.grey[900].withOpacity(0.7),Colors.grey[900].withOpacity(0.8),Colors.grey[900].withOpacity(.95),Colors.grey[900]])),
                 height: 160,
@@ -165,23 +152,19 @@ class _BoardGamePageState extends State<BoardGamePage> {
                     padding: EdgeInsets.fromLTRB(10.0, 10.0, 0, 0),
                     child: Container(
                       height: 175,
-                      //child: Align( 
-                        //alignment: Alignment.centerRight,
                         child: Container( width: 140, child: LimitedBox( maxWidth: 140, child:Image.network(game.imageUrl, height: 140,)))
-                      //),
+                      
                     ),
                   ),
                 ]),
                 Spacer(),
                 Container(height: 160,child:
-                //Expanded( child: Align( alignment: Alignment.center,child:
-                Column(mainAxisSize: MainAxisSize.min, //mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, 
+                Column(mainAxisSize: MainAxisSize.min, 
                 children: <Widget>[
-                  //Expanded(child:
                   Spacer(),
                   Container( width: 200, child: 
                     AutoSizeText('${game.name} (${game.yearPublished})',maxFontSize: 22, presetFontSizes: [18,16] ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle( color: Colors.white),),
-                  ),//),
+                  ),
                   Text('By: ${game.designer}', style: TextStyle(color: Colors.white, fontSize: 10),),
                   SizedBox(height: 10,),
                   AutoSizeText('${game.boardGamePublisher}',maxFontSize: 12 ,textAlign: TextAlign.center,softWrap: true, maxLines: 2, style: TextStyle(fontSize: 12, color: Colors.white),),
@@ -192,8 +175,8 @@ class _BoardGamePageState extends State<BoardGamePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 20,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.rating}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
-                      Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlayers}-${game.maxPlayers}', style: Theme.of(context).textTheme.subtitle1), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
-                      Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.minPlaytime}-${game.maxPlaytime}',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nmins', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:game.recPlayers, style: Theme.of(context).textTheme.subtitle1), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
+                      Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:game.recPlaytime,style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nmins', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
                       Column(children: <Widget>[Icon(Icons.person, color: Colors.grey, size: 20),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${game.age}+',style: Theme.of(context).textTheme.subtitle1),TextSpan(text:'\nyears', style: TextStyle(fontSize: 8, color: Colors.white))]))]),
                     ],
                   ),),),
@@ -255,29 +238,52 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 }),
               ),
               SizedBox(height:15),
-              Align(alignment: Alignment.topLeft, child: Text('DESCRIPTION', style: Theme.of(context).textTheme.headline2)),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),),
+              Align(alignment: Alignment.topLeft, child: Text('DESCRIPTION', style: Theme.of(context).textTheme.headline2)),
               Row(
                 children: <Widget>[
                 Expanded(child:
                 Padding(padding: EdgeInsets.all(10), child:
-                  //GestureDetector(
-                    //onTap: () {setState(() {
-                    //  readingMore = !readingMore;
-                    //});},
-                    //child:
                     Container( 
-                      //height: readingMore ? null : 160,
                       child:
                     Stack(
                       children: <Widget>[
                         Container(color: Color.fromRGBO(245,246,247,1), child:Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 0) , child: ExpandableText(game.description),),),
-                        //Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.7, 1], colors: [Color.fromRGBO(191, 199, 209,0),Color.fromRGBO(191, 199, 209,1)])),),
-                        //Container(child:Align(alignment: Alignment.bottomRight, child: Text('READ MORE', style: TextStyle(color: Colors.black)),),),
                   ])))
-                )//)
+                )
               ]),
-              //Container(height: 100, color: Colors.green,),
-              Align(alignment: Alignment.topLeft, child: Text('MARKET OFFERS', style: Theme.of(context).textTheme.headline2),),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
+              Align(alignment: Alignment.topLeft, child: Text('TOP VIDEOS', style: Theme.of(context).textTheme.headline2)),
+              Container(
+                height: 150,
+                child: StreamBuilder<ApiResponse<GameVideos>>(
+                  stream: gameVideosStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      switch (snapshot.data.status) {
+                        case Status.LOADING:
+                            return Text('Loading...', style: TextStyle(color: Colors.black));
+                        case Status.COMPLETED:
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data.data.videos.length,
+                            itemBuilder: (BuildContext context, int index){ 
+                              return 
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                //width: 200, 
+                                child: Container( color: Colors.grey[400], child: new GameVideoCard(snapshot.data.data.videos[index], 250, 160))
+                              );
+                            },
+                          );
+                        case Status.ERROR:
+                          return  Text('error', style: TextStyle(color: Colors.black));
+                        case Status.PARTIAL:
+                          return  Text('partial', style: TextStyle(color: Colors.black));
+                          }
+                        }
+                      return Container();
+                  }),
+              ),
+              Align(alignment: Alignment.topLeft, child: Text('MARKET OFFERS', style: Theme.of(context).textTheme.headline2),),
               StreamBuilder<ApiResponse<MarketOffers>>(
                 stream: marketOffersStream,
                 builder: (context, snapshot) {
@@ -285,7 +291,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                     switch (snapshot.data.status) {
                       case Status.LOADING:
                           // here we are showing loading view in waiting state.
-                          return Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
+                          return Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12));
                       case Status.COMPLETED:
                           if(snapshot.data.data.config.numitems > 0){
 
@@ -295,7 +301,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                               itemBuilder:  (BuildContext context, int index){ 
                                 return 
                                 InkWell(
-                                  onTap: (){_launchInBrowser(snapshot.data.data.products[index].producthref);}, //openGame(context, snapshot.data.data.recs[index].recitem.item.href);},
+                                  onTap: (){_launchInBrowser(snapshot.data.data.products[index].producthref);},
                                   child:Container(width: 100,child:
                                   Padding(padding: EdgeInsets.all(3), child:
                                     Stack(alignment: Alignment.bottomCenter, children: <Widget>[
@@ -308,11 +314,10 @@ class _BoardGamePageState extends State<BoardGamePage> {
                                  ),);
                               }));} 
                               return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No offers available'),),);
-                          //Text('${snapshot.data.data.recs[0].recitem.item.primaryname.name}', style: TextStyle(color: Colors.black, fontSize: 12));//Image.network(snapshot.data.data.images[1].imageurl, fit: BoxFit.fill, width: MediaQuery.of(context).size.width/1.8 ,);
                       case Status.ERROR:
-                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
+                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12));
                       case Status.PARTIAL:
-                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));//Text('partial', style: TextStyle(color: Colors.black));
+                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));
                     }
                   }
                 return Container();
@@ -347,11 +352,10 @@ class _BoardGamePageState extends State<BoardGamePage> {
                                  ),);
                               }));} 
                               return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No recommendations found'),),);
-                          //Text('${snapshot.data.data.recs[0].recitem.item.primaryname.name}', style: TextStyle(color: Colors.black, fontSize: 12));//Image.network(snapshot.data.data.images[1].imageurl, fit: BoxFit.fill, width: MediaQuery.of(context).size.width/1.8 ,);
                       case Status.ERROR:
-                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
+                        return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12));
                       case Status.PARTIAL:
-                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));//Text('partial', style: TextStyle(color: Colors.black));
+                        return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));
                     }
                   }
                 return Container();
@@ -411,8 +415,8 @@ class _DetailScreenState extends State<DetailScreen> {
             tag: widget.tag,
             child: CachedNetworkImage(
               imageUrl: widget.url,
-              placeholder: _loader,//Container(width: 32, height: 32,child: new CircularProgressIndicator()), //need center
-              errorWidget: _error,//new Icon(Icons.error),
+              placeholder: _loader,
+              errorWidget: _error,
             ),
           ),
         ),
@@ -460,18 +464,6 @@ class SearchSection extends StatelessWidget {
   }
 }
 
-//class GameRecList extends StatelessWidget {
-//  final GameRecs games;
-//  final int numRecs;
-//
-//  GameRecList(this.games, this.numRecs);
-//  @override 
-//  Widget build(BuildContext context) {
-//    return Text('nah');
-//
-//  }
-//}
-
 class LoadingGamePage extends StatelessWidget{
   @override 
   Widget build(BuildContext context) {
@@ -489,7 +481,6 @@ class LoadingGamePage extends StatelessWidget{
                     height: 160,
                     width: MediaQuery.of(context).size.width
                   ),
-                  //TO DO: Add to favorite list to view
                   Positioned(top: 5, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.white), alignment: Alignment.topRight, onPressed: (){}),),
                   Container( width: MediaQuery.of(context).size.width, child:
                   Row(
@@ -530,7 +521,7 @@ class LoadingGamePage extends StatelessWidget{
                         ],
                       ),),),
                     ]),),
-                    Spacer()//,),),
+                    Spacer()
                   ]),
                   ),
                 ]),
@@ -553,7 +544,6 @@ class LoadingGamePage extends StatelessWidget{
                   itemCount: 9,
                   itemBuilder: (context, index){ return 
                     Padding( padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15), child:
-                      //Skeleton(width: 50, height: 15, radius: 10),
                       Container(width: 50, height: 15, decoration: BoxDecoration(color: Colors.grey[400], borderRadius: BorderRadius.all(Radius.circular(10)))),
                     );
                   }),
@@ -563,11 +553,10 @@ class LoadingGamePage extends StatelessWidget{
                 Row(children: <Widget>[
                   Container( width: MediaQuery.of(context).size.width, height: 200, color: Colors.grey[400]),
                 ]),
-                //Container(height: 100, color: Colors.green,),
                 Text('RECOMMENDED', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
-                Container( height: 100, color: Colors.grey[400],), //child: Center(child: Text('No recommendations found'),)),
+                Container( height: 100, color: Colors.grey[400],),
                 Text('MARKET OFFERS', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
-                Container( height: 100, color: Colors.grey[400],), //child: Center(child: Text('No recommendations found'),),),
+                Container( height: 100, color: Colors.grey[400],),
               ])
             ),)
           ]),

@@ -7,8 +7,11 @@ import 'package:board_game_app/BoardGamePage/game_recs_repository.dart';
 import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/DataTypes/GameImages.dart';
 import 'package:board_game_app/DataTypes/GameRecs.dart';
+import 'package:board_game_app/DataTypes/GameVideos.dart';
 import 'package:board_game_app/DataTypes/MarketOffers.dart';
 import 'package:board_game_app/utils/api_response.dart';
+
+import 'game_videos_repository.dart';
 
 class BoardGamePageBloc {
   GameRecsRepository _gameRecsRepository;
@@ -19,6 +22,9 @@ class BoardGamePageBloc {
 
   MarketOffersRepository _marketOffersRepository;
   StreamController _marketOffersController; 
+
+  GameVideosRepository _gameVideosRepository;
+  StreamController _gameVideosController; 
 
   GameDetailRepository _gameDetailRepository;
 
@@ -32,13 +38,15 @@ class BoardGamePageBloc {
   StreamSink<ApiResponse<MarketOffers>> get marketOffersSink => _marketOffersController.sink;
   Stream<ApiResponse<MarketOffers>> get marketOffersStream => _marketOffersController.stream;
 
+  StreamSink<ApiResponse<GameVideos>> get gameVideosSink => _gameVideosController.sink;
+  Stream<ApiResponse<GameVideos>> get gameVideosStream => _gameVideosController.stream;
+
 
   BoardGamePageBloc(id) { 
     _gameImagesController = StreamController<ApiResponse<GameImages>>();
     _gameImagesRepository = GameImagesRepository();
     
     _gameDetailRepository = GameDetailRepository();
-    //_gameDetailController = StreamController<ApiResponse<BoardGame>>();
 
     _gameRecsController = StreamController<ApiResponse<GameRecs>>();
     _gameRecsRepository = GameRecsRepository();
@@ -46,9 +54,13 @@ class BoardGamePageBloc {
     _marketOffersController = StreamController<ApiResponse<MarketOffers>>();
     _marketOffersRepository = MarketOffersRepository();
 
+    _gameVideosController = StreamController<ApiResponse<GameVideos>>();
+    _gameVideosRepository = GameVideosRepository();
+
     fetchGameImages(id);
     fetchGameRecs(id);
     fetchMarketOffers(id);
+    fetchGameVideos(id);
   }
 
   fetchGameImages(String id) async {
@@ -81,6 +93,16 @@ class BoardGamePageBloc {
     }
   }
 
+  fetchGameVideos(String id) async {
+    try {
+      GameVideos videoList= await _gameVideosRepository.fetchGameVideos(id);
+      gameVideosSink.add(ApiResponse.completed(videoList));
+    } catch (e) {
+      print(e);
+      gameVideosSink.add(ApiResponse.error(e.toString()));
+    }
+  }
+
   Future<BoardGame> fetchGameDetails(String id) async {
     try {
       BoardGame gamedata = await _gameDetailRepository.fetchGameDetail(id);
@@ -95,5 +117,6 @@ class BoardGamePageBloc {
     _gameRecsController?.close();
     _gameImagesController?.close();
     _marketOffersController?.close();
+    _gameVideosController?.close();
   }
 }
