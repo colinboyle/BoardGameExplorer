@@ -42,14 +42,14 @@ class TrendingGameCard extends StatelessWidget{
                             GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(gameData.mechanic[0].id,gameData.mechanic[0].name)));},child:
                               Container(
                                 height: 15,
-                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.category.first)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic[0].name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
                                 child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic[0].name}', style: Theme.of(context).textTheme.caption,),)
                               )
                             ),
                             GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => MechanicList(gameData.mechanic[1].id,gameData.mechanic[1].name)));},child:
                               Container(
                                 height: 15,
-                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic.first.name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
+                                decoration: BoxDecoration(color: _hashColors.getHashColors(gameData.mechanic[1].name)[0], borderRadius: BorderRadius.all(Radius.circular(10))),
                                 child: Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2), child: Text('${gameData.mechanic[1].name}', style: Theme.of(context).textTheme.caption,),)
                               )
                             ),

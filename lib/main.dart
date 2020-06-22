@@ -1,13 +1,14 @@
-import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:board_game_app/HomeScreen/TopTrending/TrendingGameList.dart';
+import 'package:board_game_app/HomeScreen/HotDealList/HotDealListList.dart';
+import 'package:board_game_app/HomeScreen/GameVideos/GameVideosList.dart';
+import 'package:board_game_app/HomeScreen/GeekList/GeekListList.dart';
+import 'package:board_game_app/HomeScreen/NewReleases/NewReleasesList.dart';
 
-import 'HomeScreen/GameVideos/GameVideosList.dart';
-import 'HomeScreen/GeekList/GeekListList.dart';
-import 'HomeScreen/NewReleases/NewReleasesList.dart';
+import 'HomeScreen/HotDealList/HotDealListList.dart';
 
 
 
@@ -159,14 +160,34 @@ class Home extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Container(
-                       height: 300,
+                       height: 221,
                        width: MediaQuery.of(context).size.width,
-                       child: Column(children: <Widget>[
-                          Text('GEEK LISTS', style: Theme.of(context).textTheme.headline5,),
-                          Container(height: 200, child: 
-                            GeekListList(),
-                          ),
-                       ],) 
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: <Widget>[
+                            Text('GEEK LISTS', style: Theme.of(context).textTheme.headline5,),
+                            Container(height: 200, child: 
+                              GeekListList(),
+                            ),
+                          ],
+                        ) 
+                      )
+                    ] 
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                       height: 221,
+                       width: MediaQuery.of(context).size.width,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: <Widget>[
+                            Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
+                            Container(height: 200, child: 
+                              HotDealListList(),
+                            ),
+                          ],
+                        ) 
                       )
                     ] 
                   ),

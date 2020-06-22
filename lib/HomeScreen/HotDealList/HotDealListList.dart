@@ -1,20 +1,18 @@
-//import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/DataTypes/GeekList.dart';
-//import 'package:board_game_app/DataTypes/GeekList.dart';
-import 'package:board_game_app/HomeScreen/GeekList/GeekListCard.dart';
-import 'package:board_game_app/HomeScreen/GeekList/geek_list_bloc.dart';
-import 'package:board_game_app/utils/api_response.dart';
-//import 'package:board_game_app/HomeScreen/GeekList/GeekListCard.dart';
 import 'package:flutter/material.dart';
 
-class GeekListList extends StatefulWidget {
+import 'package:board_game_app/DataTypes/HotDealList.dart';
+import 'package:board_game_app/HomeScreen/HotDealList/HotDealCard.dart';
+import 'package:board_game_app/HomeScreen/HotDealList/hot_deal_list_bloc.dart';
+import 'package:board_game_app/utils/api_response.dart';
+
+class HotDealListList extends StatefulWidget {
   @override
-  _GeekListListState createState() => _GeekListListState();
+  _HotDealListListState createState() => _HotDealListListState();
 }
 
 
-class _GeekListListState extends State<GeekListList> {
-  GeekListBloc _bloc;
+class _HotDealListListState extends State<HotDealListList> {
+  HotDealListBloc _bloc;
   String url;
   String loadingMessage;
   String errorMessage;
@@ -22,13 +20,13 @@ class _GeekListListState extends State<GeekListList> {
   @override
   void initState() {
     super.initState();
-    _bloc = GeekListBloc();
+    _bloc = HotDealListBloc();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ApiResponse<GeekList>>(
-      stream: _bloc.geekListStream,
+    return StreamBuilder<ApiResponse<HotDealList>>(
+      stream: _bloc.hotDealListStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           switch (snapshot.data.status) {
@@ -52,12 +50,12 @@ class _GeekListListState extends State<GeekListList> {
                     endIndent: 5,
                   ),
                   scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data.data.lists.length,
+                  itemCount: snapshot.data.data.threads.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   itemBuilder: (BuildContext context, int index){ 
                     return 
-                      new GeekListCard(snapshot.data.data.lists[index]);
+                      new HotDealCard(snapshot.data.data.threads[index]);
                   },
                 );
             case Status.ERROR:
