@@ -4,6 +4,7 @@
 //import 'package:board_game_app/DataTypes/BoardGame.dart';
 //import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:board_game_app/GeekListDetail/GeekListDetail.dart';
 import 'package:board_game_app/utils/getSplitWords.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class GeekListCard extends StatelessWidget {
     //_stringSplit.splitWords(geekListData.name);
     return
       InkWell(
-      onTap: () {},//openGame(context, geekListData);},
+      onTap: () {openGeekListDetail(context, geekListData.href, geekListData.numitems);},//openGame(context, geekListData);},
       child: 
       Container(
         height: 52, 
@@ -60,9 +61,10 @@ class GeekListCard extends StatelessWidget {
       )
     );
   }
-  //openGame(context,BoardGame gameData){
-  //  print('Game id from onTap');
-  //  print(gameData.id);
-  //  Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.id, gameData, false)));
-  //}
+  openGeekListDetail(context,String geekListHref, String numItems){
+    //print('Game id from onTap');
+    //print(gameData.id);
+    String id = geekListHref.split('/')[2];
+    Navigator.push(context, MaterialPageRoute(builder: (context) => GeekListDetail(id,numItems)));
+  }
 }

@@ -1,5 +1,5 @@
 //import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/DataTypes/GeekList.dart';
+import 'package:board_game_app/DataTypes/GeekLists.dart';
 //import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:board_game_app/HomeScreen/GeekList/GeekListCard.dart';
 import 'package:board_game_app/HomeScreen/GeekList/geek_list_bloc.dart';
@@ -27,7 +27,7 @@ class _GeekListListState extends State<GeekListList> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ApiResponse<GeekList>>(
+    return StreamBuilder<ApiResponse<GeekLists>>(
       stream: _bloc.geekListStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {

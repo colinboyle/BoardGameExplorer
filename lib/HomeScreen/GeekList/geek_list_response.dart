@@ -2,15 +2,15 @@ import 'dart:convert';
 //import 'package:xml/xml.dart';
 
 //import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/DataTypes/GeekList.dart';
+import 'package:board_game_app/DataTypes/GeekLists.dart';
 
 class GeekListResponse {
-  GeekList results;
+  GeekLists results;
   //int totalResults;
   //List<BoardGame> gameListResults;
   
   GeekListResponse.fromJSON(dynamic response) {
-    results = new GeekList.fromJson(json.decode(response));
+    results = new GeekLists.fromJson(json.decode(response));
   }
 
   //GeekListResponse.fromXmlGameDataList(XmlDocument doc) {

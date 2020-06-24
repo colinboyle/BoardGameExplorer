@@ -1,82 +1,64 @@
-class GeekList {
-  List<Lists> lists;
-  Config config;
+import 'package:xml/xml.dart';
+import 'package:html_unescape/html_unescape.dart';
 
-  GeekList({this.lists, this.config});
-
-  GeekList.fromJson(Map<String, dynamic> json) {
-    if (json['lists'] != null) {
-      lists = new List<Lists>();
-      json['lists'].forEach((v) {
-        lists.add(new Lists.fromJson(v));
-      });
-    }
-    config =
-        json['config'] != null ? new Config.fromJson(json['config']) : null;
-  }
-}
-
-class Lists {
-  String href;
-  String numpositive;
-  String username;
+class GeekList { 
+  String id;
+  String postdate;
+  String editdate;
+  String thumbs;
   String numitems;
+  String username;
   String title;
-  Null postdate;
-  Null lastreplydate;
-  String pagination;
+  String description;
+  List<GeekListItem> items;
 
-  Lists(
-      {this.href,
-      this.numpositive,
-      this.username,
-      this.numitems,
-      this.title,
-      this.postdate,
-      this.lastreplydate,
-      this.pagination});
+  var unescape = new HtmlUnescape();
 
-  Lists.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-    numpositive = json['numpositive'];
-    username = json['username'];
-    numitems = json['numitems'];
-    title = json['title'];
-    postdate = json['postdate'];
-    lastreplydate = json['lastreplydate'];
-    pagination = json['pagination'];
-  }
-}
 
-class Config {
-  String showcontrols;
-  List<Sorttypes> sorttypes;
-  Null numitems;
-  int endpage;
+  //GeekList(this.id, this.rank, this.name, this.imageUrl);
 
-  Config({this.showcontrols, this.sorttypes, this.numitems, this.endpage});
-
-  Config.fromJson(Map<String, dynamic> json) {
-    showcontrols = json['showcontrols'];
-    if (json['sorttypes'] != null) {
-      sorttypes = new List<Sorttypes>();
-      json['sorttypes'].forEach((v) {
-        sorttypes.add(new Sorttypes.fromJson(v));
+  GeekList.fromXml(XmlDocument element){
+    id = element.getAttribute('id');
+    postdate = element.findAllElements('postdate').first.text;
+    editdate = element.findAllElements('editdate').first.text;
+    thumbs = element.findAllElements('thumbs').first.text;
+    numitems = element.findAllElements('numitems').first.text;
+    username = element.findAllElements('username').first.text;
+    title = element.findAllElements('title').first.text;
+    description = element.findAllElements('description').first.text;
+    if(element.findAllElements('item').length > 0) {
+      items = new List<GeekListItem>();
+      element.findAllElements('item').forEach((element) {
+        items.add(new GeekListItem.fromXml(element));
       });
     }
-    numitems = json['numitems'];
-    endpage = json['endpage'];
   }
 }
 
-class Sorttypes {
-  String name;
-  String type;
+class GeekListItem {
+  String id;
+  String objecttype;
+  String subtype;
+  String objectid;
+  String objectname;
+  String username;
+  String postdate;
+  String editdate;
+  String thumbs;
+  String imageid;
+  String body;
 
-  Sorttypes({this.name, this.type});
-
-  Sorttypes.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    type = json['type'];
+  GeekListItem.fromXml(XmlElement element){
+    id = element.getAttribute('id');
+    objecttype = element.getAttribute('objecttype');
+    subtype = element.getAttribute('subtype');
+    objectid = element.getAttribute('objectid');
+    objectname = element.getAttribute('objectname');
+    username = element.getAttribute('username');
+    postdate = element.getAttribute('postdate');
+    editdate = element.getAttribute('editdate');
+    thumbs = element.getAttribute('thumbs');
+    imageid = element.getAttribute('imageid');
+    body = element.findAllElements('body').first.text;
   }
 }

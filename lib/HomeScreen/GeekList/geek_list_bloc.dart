@@ -1,7 +1,7 @@
 import 'dart:async';
 
 //import 'package:board_game_app/DataTypes/BoardGame.dart';
-import 'package:board_game_app/DataTypes/GeekList.dart';
+import 'package:board_game_app/DataTypes/GeekLists.dart';
 //import 'package:board_game_app/DataTypes/GeekLists.dart';
 
 import 'package:board_game_app/HomeScreen/GeekList/geek_list_repository.dart';
@@ -11,11 +11,11 @@ class GeekListBloc {
   GeekListRepository _geekListRepository;
   StreamController _geekListController;
 
-  StreamSink<ApiResponse<GeekList>> get geekListSink => _geekListController.sink;
-  Stream<ApiResponse<GeekList>> get geekListStream => _geekListController.stream;
+  StreamSink<ApiResponse<GeekLists>> get geekListSink => _geekListController.sink;
+  Stream<ApiResponse<GeekLists>> get geekListStream => _geekListController.stream;
 
   GeekListBloc() { 
-    _geekListController = StreamController<ApiResponse<GeekList>>();
+    _geekListController = StreamController<ApiResponse<GeekLists>>();
     _geekListRepository = GeekListRepository();
     fetchGeekList();
   }
@@ -23,7 +23,7 @@ class GeekListBloc {
  fetchGeekList() async {
     geekListSink.add(ApiResponse.loading('Fetching games'));
     try {
-      GeekList geeklist = await _geekListRepository.fetchGeekList();
+      GeekLists geeklist = await _geekListRepository.fetchGeekList();
       //List<BoardGame> boardGames = await fetchGeekListData(releases);
       geekListSink.add(ApiResponse.completed(geeklist));
     } catch (e) {
