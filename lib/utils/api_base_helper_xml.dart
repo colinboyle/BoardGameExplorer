@@ -39,6 +39,8 @@ class ApiBaseHelper {
         var responseXml = xml.parse(response.body);
         //print(responseXml);
         return responseXml;
+      case 202:
+        throw AcceptedProcessingException(response.body.toString());
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:

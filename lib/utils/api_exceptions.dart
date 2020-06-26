@@ -1,11 +1,11 @@
 class ApiException implements Exception {
   final _message;
-  final _prefix;
+  final prefix;
   
-ApiException([this._message, this._prefix]);
+ApiException([this._message, this.prefix]);
   
 String toString() {
-    return "$_prefix$_message";
+    return "$prefix$_message";
   }
 }
 
@@ -15,6 +15,10 @@ class FetchDataException extends ApiException {
 
 class BadRequestException extends ApiException {
   BadRequestException([message]) : super(message, "Invalid Request: ");
+}
+
+class AcceptedProcessingException extends ApiException {
+  AcceptedProcessingException([message]) : super(message, "Accepted Request: ");
 }
 
 class UnauthorisedException extends ApiException {

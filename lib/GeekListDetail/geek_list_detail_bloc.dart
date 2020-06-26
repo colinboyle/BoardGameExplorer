@@ -18,13 +18,20 @@ class GeekListDetailBloc {
   }
 
  fetchGeekList(String geekListId) async {
+   var waitCount = 1;
     GeekListDetailSink.add(ApiResponse.loading('Fetching geek list detail'));
     try {
       GeekList boardGames = await _GeekListDetailRepository.fetchGeekList(geekListId);//.then((games) => _getTrendingGameIDs(games));
       GeekListDetailSink.add(ApiResponse.completed(boardGames));
     } catch (e) {
+      
+      if(e.prefix == "Accepted Request: "){
+        waitCount ++;
+        Timer(Duration(seconds: waitCount), () => fetchGeekList(geekListId));
+      } else {
       GeekListDetailSink.add(ApiResponse.error(e.toString()));
       print(e);
+      }
     }
   }
   
