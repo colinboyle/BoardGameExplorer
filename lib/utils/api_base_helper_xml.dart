@@ -40,16 +40,16 @@ class ApiBaseHelper {
         //print(responseXml);
         return responseXml;
       case 202:
-        throw AcceptedProcessingException(response.body.toString());
+        throw AcceptedProcessingException(response.body.toString(), response.statusCode);
       case 400:
-        throw BadRequestException(response.body.toString());
-      case 401:
+        throw BadRequestException(response.body.toString(), response.statusCode);
+      //case 401:
       case 403:
-        throw UnauthorisedException(response.body.toString());
-      case 500:
+        throw UnauthorisedException(response.body.toString(), response.statusCode);
+      //case 500:
       default:
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occured while Communication with Server with StatusCode : ${response.statusCode}', response.statusCode);
     }
   }
 
@@ -60,14 +60,14 @@ class ApiBaseHelper {
         //print(responseXml);
         return responseJSON;
       case 400:
-        throw BadRequestException(response.body.toString());
-      case 401:
+        throw BadRequestException(response.body.toString(), response.statusCode);
+      //case 401:
       case 403:
-        throw UnauthorisedException(response.body.toString());
-      case 500:
+        throw UnauthorisedException(response.body.toString(), response.statusCode);
+      //case 500:
       default:
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occured while Communication with Server with StatusCode : ${response.statusCode}',response.statusCode);
     }
   }
 }

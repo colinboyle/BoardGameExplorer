@@ -1,5 +1,7 @@
 //import 'package:auto_size_text/auto_size_text.dart';
 //import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:flutter/material.dart';
@@ -34,19 +36,25 @@ class _GeekListDetailState extends State<GeekListDetail> {
     GeekListDetailStream = _bloc.GeekListDetailStream;
   }
 
-  openGame() { //context, String href) async{
-    //String id = href.split('/')[2];
-    //Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(id, null, true)));
+  openGame(context, gameData){
+    print('Game id from onTap');
+    print(gameData.id);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.id, null, true)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(191, 199, 209, 1),
+      backgroundColor: Colors.white,//Color.fromRGBO(191, 199, 209, 1),
       body: Stack(children: <Widget>[
         SingleChildScrollView(scrollDirection: Axis.vertical, child:
-        Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
+        //Column(children: <Widget>[
+        //  Container(height: 200, color: Colors.green,),
+        //  Container(height: 300, color: Colors.blue,),
+        //  Container(height: 400, color: Colors.yellow,),
+        //],)
+        //Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
           Column(children: <Widget>[
             Container(height: 120),
             StreamBuilder<ApiResponse<GeekList>>(
@@ -62,14 +70,15 @@ class _GeekListDetailState extends State<GeekListDetail> {
                         //SingleChildScrollView(
                         //  scrollDirection: Axis.vertical, //physics: ScrollPhysics(),
                         //  child: 
-                            Column( children: <Widget>[
+                            Column(children: <Widget>[
                               Container(child:
                                 Column(children: <Widget>[
-                                  Text(snapshot.data.data.title, style: Theme.of(context).textTheme.headline2,),
+                                  Text(snapshot.data.data.title, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),
                                   Text(snapshot.data.data.editdate),
-                                  Text(snapshot.data.data.description, style: Theme.of(context).textTheme.subtitle1,)
+                                  Text(snapshot.data.data.description, style: Theme.of(context).textTheme.bodyText2,)
                                 ]),
                               ),
+                              //Container(height: 1000,)
                               ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -78,20 +87,55 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                 itemBuilder:  (BuildContext context, int index){ 
                                   return Container(
                                     width: MediaQuery.of(context).size.width, 
-                                    height: 100, 
+                                    //height: 150, 
                                     child:
                                       InkWell(
-                                        onTap: (){ openGame();},//context, snapshot.data.data.recs[index].recitem.item.href);},
-                                        child:
-                                          Container(height: 100, color: Colors.white, child:
-                                            Text(snapshot.data.data.items[index].objectname, style: TextStyle(color: Colors.black, fontSize: 20),)
-                                          ),
-                                      ),
+                                        onTap: () {openGame(context, snapshot.data.data.items[index]);},
+                                        child: 
+                                        Container(
+                                          //height: 150, 
+                                          decoration: BoxDecoration(color: Colors.white, ), 
+                                          margin: EdgeInsets.all(5), 
+                                          child:
+                                          Stack(children: <Widget>[
+                                            Padding( padding: EdgeInsets.only(left: 5), child:
+                                              Row(children: <Widget>[
+                                                Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                                  Image.network(snapshot.data.data.items[index].imageUrl, width: 110, height: 120, fit: BoxFit.contain)
+                                                ]),
+                                                //SizedBox(width: 10),
+                                                //Expanded(child:
+                                                  Padding( padding: EdgeInsets.fromLTRB(15, 15, 15, 10), child: 
+                                                    //SizedBox(height: 100, child:
+                                                      Column(mainAxisSize: MainAxisSize.min ,crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                                                        Row( children: [Expanded( child:AutoSizeText(snapshot.data.data.items[index].objectname, maxLines: 1, wrapWords: false, style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800,color: Color.fromRGBO(21, 47, 90, 1))))]),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: <Widget>[
+                                                            Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 14,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${snapshot.data.data.items[index].rating}',style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nstars', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                                                            Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlayers, style: TextStyle(fontSize: 7, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                                                            Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlaytime,style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                                                        ]),
+                                                        AutoSizeText(snapshot.data.data.items[index].body, style: Theme.of(context).textTheme.bodyText2,)
+                                                      ])
+                                                 //   )
+                                                  )
+                                               // ),
+                                              ]),
+                                            ),
+                                            Positioned(top: 0, left: 0, child: GestureDetector( onTap: () {}, child: Container(width: 30, height: 30, decoration: BoxDecoration(color:Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),child: Icon(Icons.favorite_border, color: Colors.black, size: 15,)))),
+                                            if(snapshot.data.data.items[index].ranks.length > 0 && snapshot.data.data.items[index].ranks[0].value != 'Not Ranked' && int.parse(snapshot.data.data.items[index].ranks[0].value) < 1000) ...[
+                                              Positioned(top: 0, right: 5, child: Row(children: [Container(decoration: BoxDecoration(color: Colors.grey[200] ,borderRadius: BorderRadius.all(Radius.circular(5))) , child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5) ,child:Text('Overall: ${snapshot.data.data.items[index].ranks[0].value}')))]))
+                                            ]
+                                          ])
+                                        )
+                                      )
                                   );
                                 }
                                //),
                                //),
-                            )],);
+                              )
+                            ],);
                         //);
                       //return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No offers available'),),);
                     case Status.ERROR:
@@ -104,7 +148,7 @@ class _GeekListDetailState extends State<GeekListDetail> {
               }
             ),
           ]),
-        ),
+        //),
         ),
         CustomSearchBar(false),
       ])

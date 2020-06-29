@@ -32,7 +32,8 @@ class BoardGame {
   var unescape = new HtmlUnescape();
 
 
-  BoardGame(this.id, this.rank, this.name, this.imageUrl);
+  //BoardGame(this.id, this.rank, this.name, this.imageUrl);
+  BoardGame();
 
   BoardGame.fullDetails(
     this.id, 
@@ -93,7 +94,7 @@ class BoardGame {
       ranks = new List<Ranks>();
       node.findAllElements('statistics').first.findAllElements('ratings').first.findAllElements('ranks').first.findAllElements('rank').forEach((e) => ranks.add( new Ranks.fromXml(e)));
     }
-    if(node.findAllElements('videos').length != 0 && node.findAllElements('videos').first.findAllElements('video').first != null ){
+    if(node.findAllElements('videos').length != 0 && node.findAllElements('videos').first.findAllElements('video').length != 0 && node.findAllElements('videos').first.findAllElements('video').first != null ){
       videos = new List<GameVideoLink>();
       node.findAllElements('videos').first.findAllElements('video').forEach((el) => videos.add( new GameVideoLink.fromXml(el)));
     }

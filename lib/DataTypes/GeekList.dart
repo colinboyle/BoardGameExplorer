@@ -1,3 +1,4 @@
+import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:xml/xml.dart';
 import 'package:html_unescape/html_unescape.dart';
 
@@ -35,7 +36,7 @@ class GeekList {
   }
 }
 
-class GeekListItem {
+class GeekListItem extends BoardGame {
   String id;
   String objecttype;
   String subtype;
@@ -47,6 +48,16 @@ class GeekListItem {
   String thumbs;
   String imageid;
   String body;
+
+  String imageUrl;
+  String yearPublished;
+  String recPlayers;
+  String recPlaytime;
+  String age;
+  String rating;
+  String weight;
+  List<Ranks> ranks;
+
 
   GeekListItem.fromXml(XmlElement element){
     id = element.getAttribute('id');
@@ -60,5 +71,16 @@ class GeekListItem {
     thumbs = element.getAttribute('thumbs');
     imageid = element.getAttribute('imageid');
     body = element.findAllElements('body').first.text;
+  }
+
+  addGameDetails(String imageurl, String yearpub, String recplayers, String recplaytime, String playage, String playrating, String playweight, List<Ranks> gameranks){
+   this.imageUrl = imageurl;
+   this.yearPublished = yearpub;
+   this.recPlayers = recplayers;
+   this.recPlaytime = recplaytime;
+   this.age = playage;
+   this.rating = playrating;
+   this.weight = playweight;
+   this.ranks = gameranks;
   }
 }
