@@ -38,8 +38,8 @@ class _GeekListDetailState extends State<GeekListDetail> {
 
   openGame(context, gameData){
     print('Game id from onTap');
-    print(gameData.id);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.id, null, true)));
+    print(gameData.objectid);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.objectid, null, true)));
   }
 
   @override
@@ -55,7 +55,7 @@ class _GeekListDetailState extends State<GeekListDetail> {
         //  Container(height: 400, color: Colors.yellow,),
         //],)
         //Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
-          Column(children: <Widget>[
+          Column( mainAxisSize: MainAxisSize.min, children: <Widget>[
             Container(height: 120),
             StreamBuilder<ApiResponse<GeekList>>(
               stream: GeekListDetailStream,
@@ -67,9 +67,6 @@ class _GeekListDetailState extends State<GeekListDetail> {
                     case Status.COMPLETED:
                       //if(snapshot.data.data.numitems. > 0){
                        return 
-                        //SingleChildScrollView(
-                        //  scrollDirection: Axis.vertical, //physics: ScrollPhysics(),
-                        //  child: 
                             Column(children: <Widget>[
                               Container(child:
                                 Column(children: <Widget>[
@@ -85,21 +82,18 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                 scrollDirection: Axis.vertical,
                                 itemCount: snapshot.data.data.items.length,
                                 itemBuilder:  (BuildContext context, int index){ 
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width, 
-                                    //height: 150, 
-                                    child:
-                                      InkWell(
+                                  return InkWell(
                                         onTap: () {openGame(context, snapshot.data.data.items[index]);},
                                         child: 
                                         Container(
                                           //height: 150, 
+                                          width: MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(color: Colors.white, ), 
                                           margin: EdgeInsets.all(5), 
                                           child:
                                           Stack(children: <Widget>[
                                             Padding( padding: EdgeInsets.only(left: 5), child:
-                                              Row(children: <Widget>[
+                                              Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
                                                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                   Image.network(snapshot.data.data.items[index].imageUrl, width: 110, height: 120, fit: BoxFit.contain)
                                                 ]),
@@ -108,7 +102,13 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                                   Padding( padding: EdgeInsets.fromLTRB(15, 15, 15, 10), child: 
                                                     //SizedBox(height: 100, child:
                                                       Column(mainAxisSize: MainAxisSize.min ,crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                                                        Row( children: [Expanded( child:AutoSizeText(snapshot.data.data.items[index].objectname, maxLines: 1, wrapWords: false, style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800,color: Color.fromRGBO(21, 47, 90, 1))))]),
+                                                        Row(
+                                                          mainAxisSize: MainAxisSize.max, 
+                                                          children: [
+                                                            Container( width: MediaQuery.of(context).size.width - 155 , child:
+                                                              AutoSizeText(snapshot.data.data.items[index].objectname, maxLines: 1, wrapWords: false, style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800,color: Color.fromRGBO(21, 47, 90, 1)))
+                                                            )
+                                                        ]),
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                           children: <Widget>[
@@ -116,7 +116,18 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                                             Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlayers, style: TextStyle(fontSize: 7, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
                                                             Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlaytime,style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
                                                         ]),
-                                                        AutoSizeText(snapshot.data.data.items[index].body, style: Theme.of(context).textTheme.bodyText2,)
+                                                        Row(mainAxisSize: MainAxisSize.max ,children: <Widget>[
+                                                          Container( width: MediaQuery.of(context).size.width - 155 , child:
+                                                            AutoSizeText(snapshot.data.data.items[index].body, 
+                                                              //softWrap: true,
+                                                              maxLines: 25,
+                                                              overflow: TextOverflow.ellipsis, 
+                                                              minFontSize: 8,
+                                                              style: Theme.of(context).textTheme.bodyText2,
+                                                            ),
+                                                          ),
+                                                        ]), 
+                                                        
                                                       ])
                                                  //   )
                                                   )
@@ -129,8 +140,7 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                             ]
                                           ])
                                         )
-                                      )
-                                  );
+                                      );
                                 }
                                //),
                                //),

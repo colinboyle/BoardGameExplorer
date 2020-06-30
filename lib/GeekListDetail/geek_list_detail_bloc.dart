@@ -36,12 +36,12 @@ class GeekListDetailBloc {
       GeekListDetailSink.add(ApiResponse.completed(boardGames));
     } catch (e) {
       print('Type of e: ${e.runtimeType}');
-      if(e.runtimeType is AcceptedProcessingException){
+      if(e is AcceptedProcessingException){
         waitCount ++;
         Timer(Duration(seconds: waitCount), () => fetchGeekList(geekListId));
       } else {
         GeekListDetailSink.add(ApiResponse.error(e.toString()));
-        print(e);
+        //print(e);
       }
     }
   }
