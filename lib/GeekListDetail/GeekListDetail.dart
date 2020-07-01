@@ -10,6 +10,8 @@ import 'package:board_game_app/utils/api_response.dart';
 //import 'package:board_game_app/GeekListDetail/GeekListDetail.dart';
 import 'package:board_game_app/GeekListDetail/geek_list_detail_bloc.dart';
 
+import 'package:board_game_app/utils/bbcode_parser.dart';
+
 class GeekListDetail extends StatefulWidget {
   final String geekListId;
   final String numItems;
@@ -57,6 +59,8 @@ class _GeekListDetailState extends State<GeekListDetail> {
         //Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
           Column( mainAxisSize: MainAxisSize.min, children: <Widget>[
             Container(height: 120),
+            //Text(parseBBCode('is this [b]Bold[/b]?')),
+            //parseBBCode('is this [b]Bold[/b]?'),
             StreamBuilder<ApiResponse<GeekList>>(
               stream: GeekListDetailStream,
               builder: (context, snapshot) {
@@ -72,7 +76,8 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                 Column(children: <Widget>[
                                   Text(snapshot.data.data.title, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),
                                   Text(snapshot.data.data.editdate),
-                                  Text(snapshot.data.data.description, style: Theme.of(context).textTheme.bodyText2,)
+                                  ...parseBBCode(snapshot.data.data.description),
+                                  //Text(snapshot.data.data.description, style: Theme.of(context).textTheme.bodyText2,)
                                 ]),
                               ),
                               //Container(height: 1000,)

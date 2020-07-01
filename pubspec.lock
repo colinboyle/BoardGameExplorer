@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  bbob_dart:
+    dependency: "direct main"
+    description:
+      name: bbob_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   cached_network_image:
     dependency: "direct main"
     description:
