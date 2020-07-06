@@ -78,11 +78,11 @@ class BoardGame {
     imageUrl = node.findAllElements('thumbnail').length>0 ? node.findAllElements('thumbnail').first.text : 'https://via.placeholder.com/200x150?text=No%20Image%20Available';
     fullImageUrl = node.findAllElements('image').length>0 ? node.findAllElements('image').first.text : 'https://via.placeholder.com/200x150?text=No%20Image%20Available';
     yearPublished = node.findAllElements('yearpublished').first.getAttribute('value');
-    minPlayers = node.findAllElements('minplayers').first.getAttribute('value');
-    maxPlayers = node.findAllElements('maxplayers').first.getAttribute('value');
-    minPlaytime = node.findAllElements('minplaytime').first.getAttribute('value');
-    maxPlaytime = node.findAllElements('maxplaytime').first.getAttribute('value');
-    age = node.findAllElements('minage').first.getAttribute('value');
+    minPlayers = node.findAllElements('minplayers').isEmpty ? '-' : node.findAllElements('minplayers').first.getAttribute('value');
+    maxPlayers = node.findAllElements('maxplayers').isEmpty ? '-' : node.findAllElements('maxplayers').first.getAttribute('value');
+    minPlaytime = node.findAllElements('minplaytime').isEmpty ? '-' : node.findAllElements('minplaytime').first.getAttribute('value');
+    maxPlaytime = node.findAllElements('maxplaytime').isEmpty ? '-' : node.findAllElements('maxplaytime').first.getAttribute('value');
+    age = node.findAllElements('age').isEmpty ? '-' :node.findAllElements('minage').first.getAttribute('value');
     description = unescape.convert(node.findAllElements('description').first.text).trim();
     designer = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').isNotEmpty ?? false ? node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').first.getAttribute('value') : '';
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value') ?? 'No publisher';

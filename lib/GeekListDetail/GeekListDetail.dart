@@ -1,13 +1,10 @@
-//import 'package:auto_size_text/auto_size_text.dart';
-//import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
 import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:flutter/material.dart';
 import 'package:board_game_app/utils/api_response.dart';
-//import 'package:board_game_app/DataTypes/BoardGame.dart';
-//import 'package:board_game_app/GeekListDetail/GeekListDetail.dart';
+
 import 'package:board_game_app/GeekListDetail/geek_list_detail_bloc.dart';
 
 import 'package:board_game_app/utils/bbcode_parser.dart';
@@ -73,10 +70,12 @@ class _GeekListDetailState extends State<GeekListDetail> {
                        return 
                             Column(children: <Widget>[
                               Container(child:
-                                Column(children: <Widget>[
-                                  Text(snapshot.data.data.title, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),
-                                  Text(snapshot.data.data.editdate),
-                                  ...parseBBCode(snapshot.data.data.description),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(children: [Expanded(child: Text(snapshot.data.data.title, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),),]),
+                                    Row(children: [Expanded(child: Text(snapshot.data.data.editdate,textAlign: TextAlign.center,),),]),
+                                    ...parseBBCode(snapshot.data.data.description),
                                   //Text(snapshot.data.data.description, style: Theme.of(context).textTheme.bodyText2,)
                                 ]),
                               ),
@@ -98,8 +97,8 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                           child:
                                           Stack(children: <Widget>[
                                             Padding( padding: EdgeInsets.only(left: 5), child:
-                                              Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
-                                                Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                              Row(crossAxisAlignment: CrossAxisAlignment.start ,mainAxisSize: MainAxisSize.max, children: <Widget>[
+                                                Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                                                   Image.network(snapshot.data.data.items[index].imageUrl, width: 110, height: 120, fit: BoxFit.contain)
                                                 ]),
                                                 //SizedBox(width: 10),
@@ -123,13 +122,16 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                                         ]),
                                                         Row(mainAxisSize: MainAxisSize.max ,children: <Widget>[
                                                           Container( width: MediaQuery.of(context).size.width - 155 , child:
-                                                            AutoSizeText(snapshot.data.data.items[index].body, 
-                                                              //softWrap: true,
-                                                              maxLines: 25,
-                                                              overflow: TextOverflow.ellipsis, 
-                                                              minFontSize: 8,
-                                                              style: Theme.of(context).textTheme.bodyText2,
-                                                            ),
+                                                          Column(children: <Widget>[
+                                                            ...parseBBCode(snapshot.data.data.items[index].body),
+                                                          ],)
+                                                            //AutoSizeText(
+                                                            //  //softWrap: true,
+                                                            //  maxLines: 25,
+                                                            //  overflow: TextOverflow.ellipsis, 
+                                                            //  minFontSize: 8,
+                                                            //  style: Theme.of(context).textTheme.bodyText2,
+                                                            //),
                                                           ),
                                                         ]), 
                                                         

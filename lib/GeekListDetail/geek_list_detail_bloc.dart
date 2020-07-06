@@ -24,6 +24,8 @@ class GeekListDetailBloc {
     GeekListDetailSink.add(ApiResponse.loading('Fetching geek list detail'));
     try {
       GeekList boardGames = await _GeekListDetailRepository.fetchGeekList(geekListId);//.then((games) => _getTrendingGameIDs(games));
+      boardGames.items.removeWhere((gameItem) => gameItem.subtype != 'boardgame');
+      boardGames.numitems = boardGames.items.length.toString();
       List<BoardGame> boardGamesFull = await fetchListDetails(boardGames);
       boardGames.items.forEach((game) {
         boardGamesFull.forEach((gameExtended) {
@@ -48,10 +50,8 @@ class GeekListDetailBloc {
 
   Future<List<BoardGame>> fetchListDetails(GeekList list) async {
     try {
-      String gameIDs =
-      list.items.map((e) => e.objectid + ',').join();
-      List<BoardGame> boardGames =
-      await _GeekListDetailRepository.fetchListDetails(gameIDs);
+      String gameIDs = list.items.map((e) => e.objectid + ',').join();
+      List<BoardGame> boardGames = await _GeekListDetailRepository.fetchListDetails(gameIDs);
       return boardGames;
     } catch (e) {
       print(e);
