@@ -1,13 +1,18 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
-import 'package:board_game_app/DataTypes/GeekList.dart';
-import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_size_text/auto_size_text.dart';
+//import 'package:intl/intl.dart';
+
+import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:board_game_app/utils/api_response.dart';
+import 'package:board_game_app/utils/bbcode_parser.dart';
+
+import 'package:board_game_app/BoardGamePage/BoardGamePage.dart';
+import 'package:board_game_app/Layout/SearchBar/CustomSearchBar.dart';
+import 'package:board_game_app/Common/LoadingLogo.dart';
+import 'package:board_game_app/Common/ErrorGameBox.dart';
 
 import 'package:board_game_app/GeekListDetail/geek_list_detail_bloc.dart';
-
-import 'package:board_game_app/utils/bbcode_parser.dart';
 
 class GeekListDetail extends StatefulWidget {
   final String geekListId;
@@ -36,8 +41,8 @@ class _GeekListDetailState extends State<GeekListDetail> {
   }
 
   openGame(context, gameData){
-    print('Game id from onTap');
-    print(gameData.objectid);
+    //print('Game id from onTap');
+    //print(gameData.objectid);
     Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.objectid, null, true)));
   }
 
@@ -64,27 +69,32 @@ class _GeekListDetailState extends State<GeekListDetail> {
                 if (snapshot.hasData) {
                   switch (snapshot.data.status) {
                     case Status.LOADING:
-                      return Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
+                      return LoadingLogo();//Text('Loading', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('Loading...', style: TextStyle(color: Colors.black));//loadingView();
                     case Status.COMPLETED:
                       //if(snapshot.data.data.numitems. > 0){
                        return 
                             Column(children: <Widget>[
-                              Container(child:
-                                Column(
+                              Container(
+                                padding: EdgeInsets.fromLTRB(10,0,10,0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    Container(height: 30,),
                                     Row(children: [Expanded(child: Text(snapshot.data.data.title, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),),]),
                                     Row(children: [Expanded(child: Text(snapshot.data.data.editdate,textAlign: TextAlign.center,),),]),
-                                    ...parseBBCode(snapshot.data.data.description),
+                                    Container(height: 20,),
+                                    ...parseBBCode(snapshot.data.data.description, context),
+                                    Container(height: 10,)
                                   //Text(snapshot.data.data.description, style: Theme.of(context).textTheme.bodyText2,)
                                 ]),
                               ),
                               //Container(height: 1000,)
+                              Container( color: Colors.black12, child: 
                               ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
-                                itemCount: snapshot.data.data.items.length,
+                                itemCount: snapshot.data.data.items?.length ?? 0,
                                 itemBuilder:  (BuildContext context, int index){ 
                                   return InkWell(
                                         onTap: () {openGame(context, snapshot.data.data.items[index]);},
@@ -92,7 +102,7 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                         Container(
                                           //height: 150, 
                                           width: MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(color: Colors.white, ), 
+                                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(10))), 
                                           margin: EdgeInsets.all(5), 
                                           child:
                                           Stack(children: <Widget>[
@@ -116,14 +126,16 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                           children: <Widget>[
-                                                            Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 14,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${snapshot.data.data.items[index].rating}',style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nstars', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
-                                                            Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlayers, style: TextStyle(fontSize: 7, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
-                                                            Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 14),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlaytime,style: TextStyle(fontSize: 7, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 5, color: Colors.grey))]))]),
+                                                            Column(children: <Widget>[Icon(Icons.star, color: Colors.yellow, size: 18,),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:'${snapshot.data.data.items[index].rating}',style: TextStyle(fontSize: 12, color: Colors.black54)),TextSpan(text:'\nstars', style: TextStyle(fontSize: 8, color: Colors.grey))]))]),
+                                                            Column(children: <Widget>[SizedBox(width: 30,)]),
+                                                            Column(children: <Widget>[Icon(Icons.group, color: Colors.grey, size: 18),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlayers, style: TextStyle(fontSize: 12, color: Colors.black54)), TextSpan(text:'\nplayers', style: TextStyle(fontSize: 8, color: Colors.grey))]))]),
+                                                            Column(children: <Widget>[SizedBox(width: 30,)]),
+                                                            Column(children: <Widget>[Icon(Icons.timer, color: Colors.blue, size: 18),RichText(textAlign: TextAlign.center, text: TextSpan(children: [TextSpan(text:snapshot.data.data.items[index].recPlaytime,style: TextStyle(fontSize: 12, color: Colors.black54)),TextSpan(text:'\nmins', style: TextStyle(fontSize: 8, color: Colors.grey))]))]),
                                                         ]),
                                                         Row(mainAxisSize: MainAxisSize.max ,children: <Widget>[
                                                           Container( width: MediaQuery.of(context).size.width - 155 , child:
                                                           Column(children: <Widget>[
-                                                            ...parseBBCode(snapshot.data.data.items[index].body),
+                                                            ...parseBBCode(snapshot.data.data.items[index].body, context),
                                                           ],)
                                                             //AutoSizeText(
                                                             //  //softWrap: true,
@@ -141,7 +153,10 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                                // ),
                                               ]),
                                             ),
-                                            Positioned(top: 0, left: 0, child: GestureDetector( onTap: () {}, child: Container(width: 30, height: 30, decoration: BoxDecoration(color:Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),child: Icon(Icons.favorite_border, color: Colors.black, size: 15,)))),
+                                            //
+                                            //Removed favorite
+                                            //
+                                            //Positioned(top: 0, left: 0, child: GestureDetector( onTap: () {}, child: Container(width: 30, height: 30, decoration: BoxDecoration(color:Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),child: Icon(Icons.favorite_border, color: Colors.black, size: 15,)))),
                                             if(snapshot.data.data.items[index].ranks.length > 0 && snapshot.data.data.items[index].ranks[0].value != 'Not Ranked' && int.parse(snapshot.data.data.items[index].ranks[0].value) < 1000) ...[
                                               Positioned(top: 0, right: 5, child: Row(children: [Container(decoration: BoxDecoration(color: Colors.grey[200] ,borderRadius: BorderRadius.all(Radius.circular(5))) , child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5) ,child:Text('Overall: ${snapshot.data.data.items[index].ranks[0].value}')))]))
                                             ]
@@ -152,11 +167,11 @@ class _GeekListDetailState extends State<GeekListDetail> {
                                //),
                                //),
                               )
-                            ],);
+                            )],);
                         //);
                       //return Container( height: 100, color: Colors.blueGrey[100], child: Center(child: Text('No offers available'),),);
                     case Status.ERROR:
-                      return  Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
+                      return  ErrorGameBox(); //Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
                     case Status.PARTIAL:
                       return  Text('Partial', style: TextStyle(color: Colors.black, fontSize: 12));//Text('partial', style: TextStyle(color: Colors.black));
                   }

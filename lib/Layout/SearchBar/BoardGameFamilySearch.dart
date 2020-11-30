@@ -35,7 +35,7 @@ class BoardGameFamilySearch extends StatelessWidget {
                   width: 100,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(color: _hashColors.getHashColors(mechanic)[1], borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))),
-                  child: Text('Find More', style: TextStyle(fontWeight: FontWeight.w600), textAlign: TextAlign.center,),
+                  child: Text('Find More', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white), textAlign: TextAlign.center,),
               ),
               ),
               Align(alignment: Alignment.center, child:Text('${_splitWords.firstChar}    ', style: TextStyle(color: _hashColors.getHashColors(mechanic)[2], fontSize: 70, fontWeight: FontWeight.w900))), 

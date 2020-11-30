@@ -72,7 +72,10 @@ class TrendingGameCard extends StatelessWidget{
               ),
             ]),
           ),
-          Positioned(top: 0, left: 0, child: GestureDetector( onTap: () {}, child: Container(width: 30, height: 30, decoration: BoxDecoration(color:Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),child: Icon(Icons.favorite_border, color: Colors.black, size: 15,)))),
+          //
+          //Removed Favorite button
+          //
+          //Positioned(top: 0, left: 0, child: GestureDetector( onTap: () {}, child: Container(width: 30, height: 30, decoration: BoxDecoration(color:Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),child: Icon(Icons.favorite_border, color: Colors.black, size: 15,)))),
           if(gameData.ranks.length > 0 && gameData.ranks[0].value != 'Not Ranked' && int.parse(gameData.ranks[0].value) < 1000) ...[
             Positioned(top: 0, right: 5, child: Row(children: [Container(decoration: BoxDecoration(color: Colors.grey[200] ,borderRadius: BorderRadius.all(Radius.circular(5))) , child: Padding(padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5) ,child:Text('Overall: ${gameData.ranks[0].value}')))]))
           ]

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:board_game_app/DataTypes/Thread.dart';
 
 import 'package:board_game_app/ThreadDetail/thread_detail_repository.dart';
-import 'package:board_game_app/utils/api_exceptions.dart';
+//import 'package:board_game_app/utils/api_exceptions.dart';
 import 'package:board_game_app/utils/api_response.dart';
 
 class ThreadDetailBloc {
@@ -18,10 +18,10 @@ class ThreadDetailBloc {
     _ThreadDetailRepository = ThreadDetailRepository();
   }
 
- fetchThread(String geekListId) async {
-    ThreadDetailSink.add(ApiResponse.loading('Fetching geek list detail'));
+ fetchThread(String threadID) async {
+    ThreadDetailSink.add(ApiResponse.loading('Fetching thread detail'));
     try {
-      Thread threadData = await _ThreadDetailRepository.fetchThread(geekListId);
+      Thread threadData = await _ThreadDetailRepository.fetchThread(threadID);
 
       ThreadDetailSink.add(ApiResponse.completed(threadData));
     } catch (e) {

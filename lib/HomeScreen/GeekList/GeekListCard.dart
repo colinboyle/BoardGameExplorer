@@ -5,7 +5,7 @@
 //import 'package:board_game_app/DataTypes/GeekList.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:board_game_app/GeekListDetail/GeekListDetail.dart';
-import 'package:board_game_app/utils/getSplitWords.dart';
+//import 'package:board_game_app/utils/getSplitWords.dart';
 import 'package:flutter/material.dart';
 
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 class GeekListCard extends StatelessWidget {
   final  geekListData;
   GeekListCard(this.geekListData);
-  var _stringSplit = new GetSplitWords();
+  //var _stringSplit = new GetSplitWords();
   //var _hashColors = new GetHashColors();
   
   @override 
@@ -24,7 +24,7 @@ class GeekListCard extends StatelessWidget {
       onTap: () {openGeekListDetail(context, geekListData.href, geekListData.numitems);},//openGame(context, geekListData);},
       child: 
       Container(
-        height: 52, 
+        height: 55, 
         decoration: BoxDecoration(color: Colors.white, ), 
         margin: EdgeInsets.symmetric(horizontal: 5), 
         padding: EdgeInsets.all(5),
@@ -48,8 +48,8 @@ class GeekListCard extends StatelessWidget {
             Row(
               children: <Widget>[
                 Text(geekListData.username),
-                SizedBox(width: 10,),
-                Icon(Icons.calendar_today, color: Colors.grey, size: 10),Text('${geekListData.postdate}'),
+                //SizedBox(width: 10,),
+                //Icon(Icons.calendar_today, color: Colors.grey, size: 10),Text('${geekListData.postdate}'),
                 SizedBox(width: 10,),
                 Icon(Icons.list, color: Colors.grey, size: 10),Text(geekListData.numitems),
                 SizedBox(width: 10,),

@@ -82,7 +82,7 @@ class BoardGame {
     maxPlayers = node.findAllElements('maxplayers').isEmpty ? '-' : node.findAllElements('maxplayers').first.getAttribute('value');
     minPlaytime = node.findAllElements('minplaytime').isEmpty ? '-' : node.findAllElements('minplaytime').first.getAttribute('value');
     maxPlaytime = node.findAllElements('maxplaytime').isEmpty ? '-' : node.findAllElements('maxplaytime').first.getAttribute('value');
-    age = node.findAllElements('age').isEmpty ? '-' :node.findAllElements('minage').first.getAttribute('value');
+    age = node.findAllElements('minage').isEmpty ? '-' :node.findAllElements('minage').first.getAttribute('value');
     description = unescape.convert(node.findAllElements('description').first.text).trim();
     designer = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').isNotEmpty ?? false ? node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamedesigner').first.getAttribute('value') : '';
     boardGamePublisher = node.findAllElements('link').where((element) => element.getAttribute('type') == 'boardgamepublisher').first.getAttribute('value') ?? 'No publisher';

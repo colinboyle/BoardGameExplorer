@@ -21,7 +21,7 @@ class GeekList {
   GeekList.fromXml(XmlDocument element){
     id = element.getAttribute('id');
     postdate = element.findAllElements('postdate').first.text;
-    editdate = element.findAllElements('editdate').first.text;
+    editdate = element.findAllElements('editdate').first.text.substring(0,16);
     thumbs = element.findAllElements('thumbs').first.text;
     numitems = element.findAllElements('numitems').first.text;
     username = element.findAllElements('username').first.text;

@@ -1,6 +1,6 @@
-import 'package:board_game_app/DataTypes/BoardGame.dart';
+//import 'package:board_game_app/DataTypes/BoardGame.dart';
 import 'package:board_game_app/DataTypes/NewRelease.dart';
-import 'package:board_game_app/DataTypes/NewReleases.dart';
+//import 'package:board_game_app/DataTypes/NewReleases.dart';
 import 'package:board_game_app/HomeScreen/NewReleases/NewReleaseCard.dart';
 import 'package:board_game_app/HomeScreen/NewReleases/new_releases_bloc.dart';
 import 'package:board_game_app/utils/api_response.dart';

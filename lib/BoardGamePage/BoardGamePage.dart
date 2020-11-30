@@ -26,7 +26,7 @@ class BoardGamePage extends StatefulWidget {
   final BoardGame gameData;
   final bool needFullInfo;
   final String gameid;
-  var _hashColors = new GetHashColors();
+  final _hashColors = new GetHashColors();
 
   BoardGamePage(this.gameid, this.gameData, this.needFullInfo);
 
@@ -143,7 +143,8 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 width: MediaQuery.of(context).size.width
               ),
               //TO DO: Add to favorite list to view
-              Positioned(top: 5, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.white), alignment: Alignment.topRight, onPressed: (){}),),
+              //Removed favorite
+              //Positioned(top: 5, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.white), alignment: Alignment.topRight, onPressed: (){}),),
               Container( width: MediaQuery.of(context).size.width, child:
               Row(
               children: <Widget>[
@@ -188,7 +189,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
               ),
             ]),
           ),
-          Container(height: 380, child: 
+          Container(height: MediaQuery.of(context).size.height -285, child: 
           SingleChildScrollView( scrollDirection: Axis.vertical, child:
             Column( 
             children: <Widget>[
@@ -237,7 +238,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                   )));
                 }),
               ),
-              SizedBox(height:15),
+              Container(height: 20,),
               Align(alignment: Alignment.topLeft, child: Text('DESCRIPTION', style: Theme.of(context).textTheme.headline2)),
               Row(
                 children: <Widget>[
@@ -251,6 +252,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                   ])))
                 )
               ]),
+              Container(height: 20,),
               Align(alignment: Alignment.topLeft, child: Text('TOP VIDEOS', style: Theme.of(context).textTheme.headline2)),
               Container(
                 height: 150,
@@ -262,6 +264,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                         case Status.LOADING:
                             return Text('Loading...', style: TextStyle(color: Colors.black));
                         case Status.COMPLETED:
+                        if(snapshot.data.data.videos.length > 0) {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: snapshot.data.data.videos.length,
@@ -274,6 +277,12 @@ class _BoardGamePageState extends State<BoardGamePage> {
                               );
                             },
                           );
+                        }
+                        return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                //width: 200, 
+                                child: Container( color: Colors.blueGrey[100])
+                              );
                         case Status.ERROR:
                           return  Text('error', style: TextStyle(color: Colors.black));
                         case Status.PARTIAL:
@@ -283,6 +292,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                       return Container();
                   }),
               ),
+              Container(height: 20,),
               Align(alignment: Alignment.topLeft, child: Text('MARKET OFFERS', style: Theme.of(context).textTheme.headline2),),
               StreamBuilder<ApiResponse<MarketOffers>>(
                 stream: marketOffersStream,
@@ -323,6 +333,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                 return Container();
                 }
               ),
+              Container(height: 20,),
               Align(alignment: Alignment.topLeft, child: Text('RECOMMENDATIONS', style: Theme.of(context).textTheme.headline2),),//TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500)),
               StreamBuilder<ApiResponse<GameRecs>>(
                 stream: gameRecsStream,
@@ -341,12 +352,12 @@ class _BoardGamePageState extends State<BoardGamePage> {
                               itemBuilder:  (BuildContext context, int index){ 
                                 return 
                                 InkWell(
-                                  onTap: (){openGame(context, snapshot.data.data.recs[index].recitem.item.href);},
+                                  onTap: (){openGame(context, snapshot.data.data.recs[index].item.href);},
                                   child:Container(width: 100,child:
                                   Padding(padding: EdgeInsets.all(3), child:
                                     Stack(alignment: Alignment.bottomCenter, children: <Widget>[
-                                      Image.network(snapshot.data.data.recs[index].recitem.item.images.square200, height: 100,),
-                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black54, child: Center(child: AutoSizeText(snapshot.data.data.recs[index].recitem.item.primaryname.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),))
+                                      Image.network(snapshot.data.data.recs[index].item.imageSets.square100.src, height: 100,),
+                                      Container(constraints: BoxConstraints.tightFor(height: 30),color: Colors.black54, child: Center(child: AutoSizeText(snapshot.data.data.recs[index].item.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.white,)),))
                                     ],)
                                   ),
                                  ),);
@@ -481,7 +492,10 @@ class LoadingGamePage extends StatelessWidget{
                     height: 160,
                     width: MediaQuery.of(context).size.width
                   ),
-                  Positioned(top: 5, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.white), alignment: Alignment.topRight, onPressed: (){}),),
+                  //
+                  //Removed favorite
+                  //
+                  //Positioned(top: 5, right: 10, child:IconButton(icon: Icon(Icons.favorite_border, color: Colors.white), alignment: Alignment.topRight, onPressed: (){}),),
                   Container( width: MediaQuery.of(context).size.width, child:
                   Row(
                   children: <Widget>[

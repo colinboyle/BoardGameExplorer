@@ -102,11 +102,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   Widget _buildBar(BuildContext context) {
     return
-    Container(height: 110,child: 
-      Row(mainAxisAlignment: MainAxisAlignment.start ,children: <Widget>[
-        _appBarTitle,
-        IconButton(icon: _searchIcon, onPressed: () {_searchPressed();},),
-      ])
+    Container(height: 110,child:
+      Column(children: [
+        Row(children: <Widget>[SizedBox(height: 25)]),
+        Row(mainAxisAlignment: MainAxisAlignment.start ,children: <Widget>[
+          _appBarTitle,
+          IconButton(icon: _searchIcon, onPressed: () {_searchPressed();},),
+        ])
+      ],) 
     );
   }
 
@@ -169,11 +172,15 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       Expanded( child:
       Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+        Row(children: <Widget>[SizedBox(height: 15,)]),
         TextField(
+            autofocus: true,
             style: TextStyle(fontSize: 20),
             controller: _filter,
             decoration: new InputDecoration(
               prefixIcon: new Icon(Icons.search, color: Colors.white),
+              hintStyle: TextStyle(color: Colors.white),
+              //enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white) ),
               hintText: 'Search...'
             ),
           ) 
@@ -185,6 +192,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       Expanded( child:
         Column(mainAxisAlignment: MainAxisAlignment.spaceAround, crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          //Row(children: <Widget>[SizedBox(height: 10,)]),
           GestureDetector( onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));}, child:
           Row(children: <Widget>[
             Image(image: AssetImage('assets/FirstLogo.png')),

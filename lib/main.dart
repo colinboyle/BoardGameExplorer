@@ -78,7 +78,7 @@ class Home extends StatelessWidget {
               Container(height: 220),
               Container( height: MediaQuery.of(context).size.height-220, width: MediaQuery.of(context).size.width,child:
               ListView(
-                shrinkWrap: true,
+                //shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 addAutomaticKeepAlives: true,
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0) ,
@@ -99,6 +99,7 @@ class Home extends StatelessWidget {
                       ),
                     ] ,
                   ),
+                  Container(height: 20,),
                   Row(
                     children: <Widget>[
                       Column(
@@ -114,6 +115,7 @@ class Home extends StatelessWidget {
                       ),
                     ] ,
                   ),
+                  Container(height: 20,),
                   Row(
                     children: <Widget>[
                       Column(
@@ -129,34 +131,7 @@ class Home extends StatelessWidget {
                       ),
                     ] ,
                   ),
-                  //Row(
-                  //  children: <Widget>[
-                  //    Column(
-                  //      crossAxisAlignment: CrossAxisAlignment.start,
-                  //      children: <Widget>[
-                  //        Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
-                  //        Container(
-                  //          height: 150,
-                  //          width: MediaQuery.of(context).size.width,
-                  //          child:
-                  //          ListView.builder(
-                  //            scrollDirection: Axis.horizontal,
-                  //            itemCount: 12,
-                  //            itemBuilder: (BuildContext context, int index){ 
-                  //              return Container(
-                  //                width: 100,
-                  //                height: 125,
-                  //                margin: EdgeInsets.all(5),
-                  //                color: Colors.blueGrey[50],
-                  //                child: Text('TODO game box',style: TextStyle(color:Colors.black))
-                  //              );
-                  //            }
-                  //          )
-                  //        )
-                  //      ],
-                  //    ),
-                  //  ] 
-                  //),
+                  Container(height: 20,),
                   Row(
                     children: <Widget>[
                       Container(
@@ -174,6 +149,7 @@ class Home extends StatelessWidget {
                       )
                     ] 
                   ),
+                  Container(height: 20,),
                   Row(
                     children: <Widget>[
                       Container(
@@ -191,6 +167,7 @@ class Home extends StatelessWidget {
                       )
                     ] 
                   ),
+                  Container(height: 10,),
                 ],
               )
             )],)

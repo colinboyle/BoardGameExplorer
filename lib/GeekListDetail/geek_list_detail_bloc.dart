@@ -24,16 +24,18 @@ class GeekListDetailBloc {
     GeekListDetailSink.add(ApiResponse.loading('Fetching geek list detail'));
     try {
       GeekList boardGames = await _GeekListDetailRepository.fetchGeekList(geekListId);//.then((games) => _getTrendingGameIDs(games));
-      boardGames.items.removeWhere((gameItem) => gameItem.subtype != 'boardgame');
-      boardGames.numitems = boardGames.items.length.toString();
-      List<BoardGame> boardGamesFull = await fetchListDetails(boardGames);
-      boardGames.items.forEach((game) {
-        boardGamesFull.forEach((gameExtended) {
-          if (game.objectid == gameExtended.id) {
-            game.addGameDetails(gameExtended.imageUrl, gameExtended.yearPublished, gameExtended.recPlayers, gameExtended.recPlaytime, gameExtended.age, gameExtended.rating, gameExtended.weight, gameExtended.ranks);
-          }
+      if(boardGames.items != null){
+        boardGames.items.removeWhere((gameItem) => gameItem.subtype != 'boardgame');
+        boardGames.numitems = boardGames.items.length.toString();
+        List<BoardGame> boardGamesFull = await fetchListDetails(boardGames);
+        boardGames.items.forEach((game) {
+          boardGamesFull.forEach((gameExtended) {
+            if (game.objectid == gameExtended.id) {
+              game.addGameDetails(gameExtended.imageUrl, gameExtended.yearPublished, gameExtended.recPlayers, gameExtended.recPlaytime, gameExtended.age, gameExtended.rating, gameExtended.weight, gameExtended.ranks);
+            }
         });
       });
+      }
 
       GeekListDetailSink.add(ApiResponse.completed(boardGames));
     } catch (e) {

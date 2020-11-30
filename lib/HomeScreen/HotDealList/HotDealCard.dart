@@ -14,7 +14,7 @@ class HotDealCard extends StatelessWidget {
       onTap: () {openThread(context, hotDealData);},
       child: 
       Container(
-        height: 52, 
+        height: 55, 
         decoration: BoxDecoration(color: Colors.white, ), 
         margin: EdgeInsets.symmetric(horizontal: 5), 
         padding: EdgeInsets.all(5),
