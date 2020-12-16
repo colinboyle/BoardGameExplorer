@@ -12,8 +12,6 @@ import 'package:board_game_app/Common/ErrorGameBox.dart';
 
 class ThreadDetail extends StatefulWidget {
   final thread;
-  //final String threadId;
-  //final String title;
 
   ThreadDetail(this.thread);
 
@@ -37,12 +35,6 @@ class _ThreadDetailState extends State<ThreadDetail> {
     ThreadDetailStream = _bloc.ThreadDetailStream;
   }
 
-  //openGame(context, gameData){
-  //  print('Game id from onTap');
-  //  print(gameData.objectid);
-  //  Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(gameData.objectid, null, true)));
-  //}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,13 +54,58 @@ class _ThreadDetailState extends State<ThreadDetail> {
                     case Status.COMPLETED:
                        return 
                         Column(children: <Widget>[
-                        Container(height: 30,),
-                        Row(children: [Expanded(child: Text(widget.thread.subject, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),),]),
-                        Row(children: [Expanded(child: Text(widget.thread.threadPostdate.substring(0,10), textAlign: TextAlign.center,),),]),
-                        Container(height: 20,),
-                        ...parseBBCode(snapshot.data.data.articles[0].body, context),
-                        Container(height: 10,),
-                        ],);
+                              Container(
+                                padding: EdgeInsets.fromLTRB(10,0,10,0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(height: 30,),
+                                    Row(children: [Expanded(child: Text(widget.thread.subject, textAlign: TextAlign.center,style: Theme.of(context).textTheme.headline2,),),]),
+                                    Row(children: [Expanded(child: Text(widget.thread.threadPostdate.substring(0,10), textAlign: TextAlign.center,),),]),
+                                    Container(height: 20,),
+                                    ...parseBBCode(snapshot.data.data.articles[0].body, context),
+                                    Container(height: 10,),
+                                  ]),
+                              ),
+                              Container( color: Colors.black12, child: 
+                              Column(children: [
+                              Container(height: 20,),
+                              Text('Comments', style: TextStyle(color: Colors.black, fontSize: 20),),
+                              
+                              ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: (snapshot.data.data.articles.length - 1), //Only need the comments and index 0 is the main post
+                                itemBuilder:  (BuildContext context, int index){ 
+                                  return Container(
+                                          //height: 150, 
+                                          width: MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10))), 
+                                          margin: EdgeInsets.all(5), 
+                                          child:
+                                          Stack(children: <Widget>[
+                                            Padding( padding: EdgeInsets.only(left: 5), child:
+                                              Row(crossAxisAlignment: CrossAxisAlignment.start ,mainAxisSize: MainAxisSize.max, children: <Widget>[
+                                                  Padding( padding: EdgeInsets.fromLTRB(15, 15, 15, 10), child: 
+                                                      Column(mainAxisSize: MainAxisSize.min ,crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                                                        Row(mainAxisSize: MainAxisSize.max ,children: <Widget>[
+                                                          Container( width: MediaQuery.of(context).size.width - 45 , child:
+                                                          Column(children: <Widget>[
+                                                            ...parseBBCode(snapshot.data.data.articles[index+1].body, context),
+                                                          ],)
+                                                          ),
+                                                        ]), 
+                                                      ])
+                                                  )
+                                              ]),
+                                            ),
+                                          ])
+                                      );
+                                }
+                              )
+                            ],)
+                            )],);
                     case Status.ERROR:
                       return  ErrorGameBox(); //Text('Error', style: TextStyle(color: Colors.black, fontSize: 12)); //Text('error', style: TextStyle(color: Colors.black));
                     case Status.PARTIAL:
