@@ -36,10 +36,12 @@ class ApiBaseHelper {
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        print('completed request.');
         var responseXml = xml.parse(response.body);
         //print(responseXml);
         return responseXml;
       case 202:
+        print('processing request...');
         throw AcceptedProcessingException(response.body.toString(), response.statusCode);
       case 400:
         throw BadRequestException(response.body.toString(), response.statusCode);
@@ -56,6 +58,7 @@ class ApiBaseHelper {
   dynamic _returnResponseJSON(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        print('completed request');
         var responseJSON =  response.body;//);
         //print(responseXml);
         return responseJSON;

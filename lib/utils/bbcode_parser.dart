@@ -89,16 +89,16 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
 
   //if there is a string before a bracket add to strbreaks
   if(matchesbb[0].start != 0){
-    strBreaks.add([0,matchesbb[0].start]);
+    strBreaks.add([0,matchesbb[0].start,codeStr.substring(0,matchesbb[0].start)]);
   }
   matchesbb.asMap().forEach((i,_) {
     //if there is a string break after the strbreaks
     if(i == matchesbb.length-1){
-      if(_.end != codeStr.length) strBreaks.add([_.end,codeStr.length]);
+      if(_.end != codeStr.length) strBreaks.add([_.end,codeStr.length,codeStr.substring(_.end,codeStr.length)]);
     }
     else {
       if(_.end != matchesbb[i+1].start) 
-      strBreaks.add([_.end,matchesbb[i+1].start]);
+      strBreaks.add([_.end,matchesbb[i+1].start,codeStr.substring(_.end,matchesbb[i+1].start)]);
     }
   });
 
@@ -109,16 +109,19 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
     newSpan.text = codeStr.substring(textContent[0], textContent[1]);
     matchesbb.where((bbcode) => bbcode.isEndTag && bbcode.openTagStart < textContent[0] && bbcode.end > textContent[1]).forEach((appliedBbcode) { 
     //bbcode.start < textContent[0] && bbcode.start > strBreaks[i-1][0] && !bbcode.isEndTag)
-    if(appliedBbcode.content == "q"){
-      print('Found quote');
-    }
         switch(appliedBbcode.content.toLowerCase()){
           case 'b':
             return newSpan.weight = FontWeight.bold;
           case 'i':
             return newSpan.style = FontStyle.italic; //newSpan.decoration = TextDecoration.underline;
           case 'center':
-            return newSpan.align = TextAlign.center;
+            //first string break in the centered group split from currentspans
+            if(i>0 && strBreaks[i-1][0] < appliedBbcode.openTagStart) {
+              newSpan.needsNewRichTextElement = true;
+            }
+            //last string break in the centered group then add center flag
+            if(strBreaks.length-1 == i || strBreaks[i+1][0] > appliedBbcode.start) newSpan.align = TextAlign.center;
+            return null;
           //case 'thing':
           //  newSpan.text = 'This should be a thing';
           //  newSpan.onTap = Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(matchesbb[appliedBbcode.openTagIndex].atr, null, true)));
@@ -134,7 +137,7 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
             }
             break;
           case 'bgcolor':
-            return newSpan.bgpaint = Paint()..color = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));
+            return newSpan.bgcolor = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));//bgpaint = Paint()..color = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));
           case 'q':
             //Paint paint = Paint()
             //  ..color = Colors.blue
@@ -146,16 +149,20 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
             //return newSpan.bgpaint = paint;
         }
     });
-    if(newSpan.align == TextAlign.center){
-      //If it needs centered finish and add the previous spans to a richText element. Add the current span as a centered richText element
-      textSpanGroups.add(new TextSpanGroup(currentTexts, false));
-      textSpanGroups.add(new TextSpanGroup([newSpan.getTextSpan()], true));
+    if(newSpan.needsNewRichTextElement) {
+      if(currentTexts.length > 0) textSpanGroups.add(new TextSpanGroup(currentTexts, false));
       currentTexts = [];
     }
-    else {
-      currentTexts.add(newSpan.getTextSpan());
+    currentTexts.add(newSpan.getTextSpan());
+    if(newSpan.align == TextAlign.center){
+      //If it needs centered finish and add the previous spans to a richText element. Add the current span as a centered richText element
+      textSpanGroups.add(new TextSpanGroup(currentTexts, true));
+      currentTexts = [];
     }
-    if(i == strBreaks.length-1){
+    //else {
+    //  currentTexts.add(newSpan.getTextSpan());
+    //}
+    else if(i == strBreaks.length-1){
       textSpanGroups.add(new TextSpanGroup(currentTexts, false));
     }
   });
@@ -163,32 +170,29 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
   matchesbb.forEach((textModifier) {
     if( selfClosing.contains(textModifier.content.toLowerCase()) && !textModifier.isEndTag){
       TextSpan specialTextSpan = createSpecialWidget(textModifier, context);
+      //index in string breaks to insert this
+      //breaks if the special widget would need it's own richText element. An example is when wrapped in center...
+      //so if it isn't contained in a strBreak we need to make one i guess..
       int textSpanInsertIndex = strBreaks.indexOf(strBreaks.firstWhere((element) => element[0]>=textModifier.start, orElse: () => null));
       textSpanInsertIndex = textSpanInsertIndex != -1 ? textSpanInsertIndex : strBreaks.length;
       int currentIndex = 0;
+      if(textModifier.atr == '4908537 inline'){
+        print('test');
+      }
       textSpanGroups.asMap().forEach((i,element) {
-        if(currentIndex < textSpanInsertIndex && textSpanGroups[i].spans.length + currentIndex >= textSpanInsertIndex){
+        if((currentIndex < textSpanInsertIndex || textSpanInsertIndex == 0 ) && textSpanGroups[i].spans.length - textSpanGroups[i].insertedSpecialWidgets + currentIndex >= textSpanInsertIndex){
+          print(strBreaks.length);
           textSpanGroups[i].spans.insert(textSpanInsertIndex-currentIndex+textSpanGroups[i].insertedSpecialWidgets, specialTextSpan);
           textSpanGroups[i].insertedSpecialWidgets ++;
         }
-        currentIndex += textSpanGroups[i].spans.length;
+        currentIndex += textSpanGroups[i].spans.length - textSpanGroups[i].insertedSpecialWidgets;
        });
-      //textParsed.add(specialWidget); //insert(insertIndex, specialWidget);
     }
   });
 
   textSpanGroups.forEach((spanGroup) {textParsed.add(Row(children:[Expanded(child:newRichText(spanGroup))]));});
 
   return textParsed;
-  //RichText(
-  //  text: TextSpan(
-  //    children: textParsed,
-  //    style: TextStyle(
-  //      color: Colors.black, 
-  //      fontSize: 20
-  //    )
-  //  ),
-  //);
 }
 
 
@@ -215,9 +219,11 @@ class BbcodeTextSpan {
   TextAlign align = TextAlign.left;
   String text = '';
   TextDecoration decoration = TextDecoration.none;
-  //Color bgcolor = Colors.white;
+  Color bgcolor = Colors.white;
   FontStyle style = FontStyle.normal;
-  Paint bgpaint = Paint()..color = Colors.white;
+  //hacky way to split off not centered sections from upcoming centered section... :/
+  bool needsNewRichTextElement = false;
+  //Paint bgpaint = Paint()..color = Colors.white;
 
   TextSpan getTextSpan(){
     return //Row( children: [Expanded( child: 
@@ -230,8 +236,8 @@ class BbcodeTextSpan {
             fontWeight: weight,
             letterSpacing: 1, 
             decoration: decoration,
-            //backgroundColor: bgcolor,
-            background: bgpaint,
+            backgroundColor: bgcolor,
+            //background: bgpaint,
             fontStyle: style
         )
     );//)]);
@@ -251,10 +257,13 @@ TextSpan createSpecialWidget(BbcodeMatch specialModifier, BuildContext context){
     case 'geeklist':
       return TextSpan(text: 'Geek List ${specialModifier.atr}', style: TextStyle(color: Colors.black, fontSize: 12));
     case 'thing':
-      return TextSpan(text: 'Tap to View Game', recognizer: new TapGestureRecognizer()..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(specialModifier.atr, null, true))), style: TextStyle(color: Colors.black, fontSize: 12));
+      //Sometimes "thing"s have a closing tag
+      //sometimes thing has a strBreak and then should just be treated as a link..
+      //Otherwise would be good to get the game title and use as a link
+      return TextSpan(text: 'Tap to View Game' + specialModifier.atr, recognizer: new TapGestureRecognizer()..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(specialModifier.atr, null, true))), style: TextStyle(color: Colors.black, fontSize: 12));
     case 'gameid':
-      return TextSpan(text: 'Tap to View Game', recognizer: new TapGestureRecognizer()..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(specialModifier.atr, null, true))), style: TextStyle(color: Colors.black, fontSize: 12));
+      return TextSpan(text: 'Tap to View Game' + specialModifier.atr, recognizer: new TapGestureRecognizer()..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => BoardGamePage(specialModifier.atr, null, true))), style: TextStyle(color: Colors.black, fontSize: 12));
     default:
-      return TextSpan(text: 'App unable to display',style: TextStyle(color: Color.fromRGBO(42, 72, 120, 1), fontSize: 12));
+      return TextSpan(text: specialModifier.fullContent ,style: TextStyle(color: Color.fromRGBO(42, 72, 120, 1), fontSize: 12));
   }
 }
