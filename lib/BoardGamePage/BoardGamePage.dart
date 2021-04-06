@@ -281,7 +281,7 @@ class _BoardGamePageState extends State<BoardGamePage> {
                         return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 5),
                                 //width: 200, 
-                                child: Container( color: Colors.blueGrey[100])
+                                child: Container( color: Colors.blueGrey[100], child: Center(child: Text("No videos found"),))
                               );
                         case Status.ERROR:
                           return  Text('error', style: TextStyle(color: Colors.black));

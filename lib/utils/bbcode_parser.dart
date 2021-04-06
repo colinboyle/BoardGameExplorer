@@ -137,7 +137,13 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
             }
             break;
           case 'bgcolor':
-            return newSpan.bgcolor = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));//bgpaint = Paint()..color = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));
+            if(matchesbb[appliedBbcode.openTagIndex].atr.substring(0,1) == '#') {
+              return newSpan.bgcolor = Color(int.parse(matchesbb[appliedBbcode.openTagIndex].atr.replaceAll('#', '0xff')));
+            }
+            else {
+              return newSpan.bgcolor = newSpan.color;
+            }
+            break;
           case 'q':
             //Paint paint = Paint()
             //  ..color = Colors.blue
@@ -176,9 +182,6 @@ List<Widget> parseBBCode(String codeStr, BuildContext context){
       int textSpanInsertIndex = strBreaks.indexOf(strBreaks.firstWhere((element) => element[0]>=textModifier.start, orElse: () => null));
       textSpanInsertIndex = textSpanInsertIndex != -1 ? textSpanInsertIndex : strBreaks.length;
       int currentIndex = 0;
-      if(textModifier.atr == '4908537 inline'){
-        print('test');
-      }
       textSpanGroups.asMap().forEach((i,element) {
         if((currentIndex < textSpanInsertIndex || textSpanInsertIndex == 0 ) && textSpanGroups[i].spans.length - textSpanGroups[i].insertedSpecialWidgets + currentIndex >= textSpanInsertIndex){
           print(strBreaks.length);
