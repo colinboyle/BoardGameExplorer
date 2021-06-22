@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
           headline5: TextStyle(
             fontSize: 18,
             color: Color.fromRGBO(42, 72, 120, 1),
+            //backgroundColor: Color.fromRGBO(191, 199, 209, 1) ,
             fontWeight: FontWeight.w500,
           ),
           headline6: TextStyle(
@@ -70,7 +71,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(191, 199, 209, 1),
+      backgroundColor: Colors.grey.shade200,//Color.fromRGBO(191, 199, 209, 1),
       body: 
         Stack( children: <Widget>[
           Container(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, child:
@@ -89,8 +90,16 @@ class Home extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,),
                           Container(
+                            padding: EdgeInsets.fromLTRB(5.0, 5.0, 15.0, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                            ),
+                            child: Text('TOP TRENDING', style: Theme.of(context).textTheme.headline5,),
+                          ),
+                          Container(
+                            color: Color.fromRGBO(191, 199, 209, 1),//Colors.grey.shade400,
                             height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: TrendingGameList()
@@ -105,8 +114,17 @@ class Home extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('REVIEWS', style: Theme.of(context).textTheme.headline5,),
                           Container(
+                            padding: EdgeInsets.fromLTRB(5.0, 5.0, 15.0, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                            ),
+                            child: Text('REVIEWS', style: Theme.of(context).textTheme.headline5,))
+                          ,
+                          Container(
+                            color: Color.fromRGBO(191, 199, 209, 1),
+                            padding: EdgeInsets.fromLTRB(0,5.0,0,5.0),
                             height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: GameVideosList()
@@ -121,8 +139,16 @@ class Home extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('NEW RELEASES', style: Theme.of(context).textTheme.headline5,),
                           Container(
+                            padding: EdgeInsets.fromLTRB(5.0, 5.0, 15.0, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                            ),
+                            child: Text('NEW RELEASES', style: Theme.of(context).textTheme.headline5,)
+                          ),
+                          Container(
+                            color: Color.fromRGBO(191, 199, 209, 1),
                             height: 150,
                             width: MediaQuery.of(context).size.width,
                             child: NewReleasesList()
@@ -140,9 +166,19 @@ class Home extends StatelessWidget {
                        child: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
-                            Text('GEEK LISTS', style: Theme.of(context).textTheme.headline5,),
-                            Container(height: 200, child: 
-                              GeekListList(),
+                           Container(
+                            padding: EdgeInsets.fromLTRB(5.0, 5.0, 15.0, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                            ),
+                            child: Text('GEEK LISTS', style: Theme.of(context).textTheme.headline5,)
+                           ),
+                            Container(
+                              color: Color.fromRGBO(191, 199, 209, 1),        
+                              padding: EdgeInsets.fromLTRB(0,5.0,0,5.0),
+                              height: 190, 
+                              child: GeekListList(),
                             ),
                           ],
                         ) 
@@ -158,9 +194,19 @@ class Home extends StatelessWidget {
                        child: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
-                            Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,),
-                            Container(height: 200, child: 
-                              HotDealListList(),
+                           Container(
+                            padding: EdgeInsets.fromLTRB(5.0, 5.0, 15.0, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20.0)),
+                            ),
+                            child: Text('HOT DEALS', style: Theme.of(context).textTheme.headline5,)
+                           ),
+                            Container(
+                              color: Color.fromRGBO(191, 199, 209, 1),
+                              padding: EdgeInsets.fromLTRB(0,5.0,0,5.0),
+                              height: 190, 
+                              child: HotDealListList(),
                             ),
                           ],
                         ) 
